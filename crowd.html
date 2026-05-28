@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Crowd Map — Kashi Vishwanath | PilgrimOS</title>
+  <meta name="description" content="Real-time crowd density map for Kashi Vishwanath Temple, Varanasi. Track zones, queue status, and best times to visit." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles-extra.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>🗺️</text></svg>" />
+  <style>
+    /* ============================================================
+       CROWD MAP PAGE SPECIFIC STYLES
+    ============================================================ */
+    body { background: #0D0906; color: #FDF6EC; margin: 0; font-family: 'DM Sans', sans-serif; }
+
+    .crowd-page-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      height: calc(100vh - 68px);
+      margin-top: 68px;
+      overflow: hidden;
+    }
+
+    /* Map Area */
+    .map-viewport {
+      position: relative;
+      background: radial-gradient(ellipse at center, #1A0F00 0%, #0D0906 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .map-bg-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(200,81,27,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,81,27,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .map-controls {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .map-ctrl-btn {
+      width: 40px;
+      height: 40px;
+      background: rgba(26,15,0,0.85);
+      border: 1px solid rgba(200,81,27,0.3);
+      border-radius: 10px;
+      color: #FDF6EC;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      backdrop-filter: blur(8px);
+    }
+    .map-ctrl-btn:hover {
+      border-color: #C8511B;
+      background: rgba(200,81,27,0.15);
+    }
+
+    .map-breadcrumb {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(26,15,0,0.85);
+      border: 1px solid rgba(200,81,27,0.25);
+      border-radius: 30px;
+      padding: 8px 20px;
+      font-size: 13px;
+      color: rgba(253,246,236,0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .map-breadcrumb a { color: rgba(212,160,23,0.8); text-decoration: none; }
+    .map-breadcrumb a:hover { color: #D4A017; }
+
+    /* Last Updated Badge */
+    .map-update-badge {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(26,15,0,0.85);
+      border: 1px solid rgba(45,122,79,0.4);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: rgba(253,246,236,0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .update-live-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #2D7A4F;
+      animation: pulse-dot 2s infinite;
+    }
+
+    /* SVG Temple Floor Plan */
+    #temple-floor-plan {
+      width: min(700px, 90%);
+      height: auto;
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 0 40px rgba(200,81,27,0.15));
+    }
+
+    /* Zone fills */
+    .zone-fill {
+      transition: fill 1.2s ease, opacity 0.8s ease;
+      cursor: pointer;
+    }
+    .zone-fill:hover { opacity: 0.9 !important; }
+
+    /* Zone label text in SVG */
+    .zone-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      fill: rgba(253,246,236,0.9);
+      text-anchor: middle;
+      pointer-events: none;
+      letter-spacing: 0.3px;
+    }
+    .zone-occ-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9px;
+      fill: rgba(253,246,236,0.7);
+      text-anchor: middle;
+      pointer-events: none;
+    }
+
+    /* Zone pulsing for red/critical */
+    @keyframes zone-pulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+    .zone-critical { animation: zone-pulse 1.4s ease-in-out infinite; }
+
+    /* ---- Info Panel (Right Sidebar) ---- */
+    .crowd-info-panel {
+      background: #110A03;
+      border-left: 1px solid rgba(200,81,27,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 28px 28px 20px;
+      border-bottom: 1px solid rgba(200,81,27,0.15);
+      flex-shrink: 0;
+    }
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #FDF6EC;
+      margin-bottom: 4px;
+    }
+    .panel-subtitle {
+      font-size: 12px;
+      color: rgba(253,246,236,0.45);
+    }
+
+    .panel-overall-badge {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(200,81,27,0.3);
+      background: rgba(200,81,27,0.07);
+    }
+    .overall-crowd-icon {
+      font-size: 24px;
+    }
+    .overall-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #C8511B;
+    }
+    .overall-sub {
+      font-size: 11px;
+      color: rgba(253,246,236,0.45);
+    }
+
+    /* Zone table */
+    .zone-table-wrap {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 28px 20px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(200,81,27,0.2) transparent;
+    }
+    .zone-table-wrap::-webkit-scrollbar { width: 4px; }
+    .zone-table-wrap::-webkit-scrollbar-track { background: transparent; }
+    .zone-table-wrap::-webkit-scrollbar-thumb { background: rgba(200,81,27,0.2); border-radius: 2px; }
+
+    .zone-table-header {
+      display: grid;
+      grid-template-columns: 1fr 60px 80px;
+      gap: 8px;
+      padding: 14px 0 10px;
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(253,246,236,0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 1px solid rgba(200,81,27,0.1);
+      margin-top: 20px;
+      position: sticky;
+      top: 0;
+      background: #110A03;
+      z-index: 2;
+    }
+
+    .zone-row {
+      display: grid;
+      grid-template-columns: 1fr 60px 80px;
+      gap: 8px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(200,81,27,0.06);
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-radius: 8px;
+      margin: 2px -6px;
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+    .zone-row:hover { background: rgba(200,81,27,0.05); }
+    .zone-row.active-zone { background: rgba(200,81,27,0.1); }
+
+    .zone-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #FDF6EC;
+    }
+    .zone-desc {
+      font-size: 11px;
+      color: rgba(253,246,236,0.4);
+      margin-top: 2px;
+    }
+    .zone-occ-pct {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    /* Occupancy bar */
+    .zone-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .zone-bar-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(253,246,236,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .zone-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1.2s ease;
+    }
+
+    /* Status chips */
+    .zone-chip {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .chip-low { background: rgba(45,122,79,0.15); color: #2D7A4F; }
+    .chip-mod { background: rgba(212,160,23,0.15); color: #D4A017; }
+    .chip-high { background: rgba(200,81,27,0.15); color: #C8511B; }
+    .chip-crit { background: rgba(185,28,28,0.2); color: #B91C1C; animation: zone-pulse 1.4s infinite; }
+
+    /* Recommendations Section */
+    .panel-recs {
+      padding: 20px 28px;
+      border-top: 1px solid rgba(200,81,27,0.15);
+      flex-shrink: 0;
+    }
+    .rec-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: rgba(253,246,236,0.4);
+      margin-bottom: 12px;
+    }
+    .rec-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: rgba(253,246,236,0.65);
+      line-height: 1.5;
+    }
+    .rec-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #D4A017;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    /* Panel Footer CTA */
+    .panel-footer {
+      padding: 16px 28px 24px;
+      border-top: 1px solid rgba(200,81,27,0.12);
+      flex-shrink: 0;
+    }
+    .panel-footer .btn-primary {
+      width: 100%;
+      text-align: center;
+      display: block;
+    }
+    .panel-footer .btn-ghost {
+      width: 100%;
+      text-align: center;
+      display: block;
+      margin-top: 8px;
+      border-color: rgba(253,246,236,0.15);
+      color: rgba(253,246,236,0.6);
+    }
+    .panel-footer .btn-ghost:hover {
+      border-color: rgba(253,246,236,0.4);
+      color: #FDF6EC;
+      background: rgba(253,246,236,0.05);
+    }
+
+    /* Countdown Timer */
+    .next-update-timer {
+      text-align: center;
+      font-size: 11px;
+      color: rgba(253,246,236,0.3);
+      margin-top: 10px;
+    }
+    .timer-countdown {
+      font-weight: 700;
+      color: rgba(200,81,27,0.7);
+    }
+
+    /* Legend */
+    .map-legend {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(26,15,0,0.88);
+      border: 1px solid rgba(200,81,27,0.2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+    .legend-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: rgba(253,246,236,0.4);
+      margin-bottom: 10px;
+    }
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: rgba(253,246,236,0.65);
+      margin-bottom: 6px;
+    }
+    .legend-swatch {
+      width: 14px; height: 14px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    /* Selected zone tooltip */
+    .zone-tooltip {
+      position: absolute;
+      background: rgba(17,10,3,0.95);
+      border: 1px solid rgba(200,81,27,0.4);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #FDF6EC;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 20;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+    }
+    .zone-tooltip.visible { opacity: 1; }
+
+    /* Mobile layout */
+    @media (max-width: 900px) {
+      .crowd-page-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: 60vh 1fr;
+        height: auto;
+      }
+      .crowd-info-panel {
+        border-left: none;
+        border-top: 1px solid rgba(200,81,27,0.2);
+        max-height: 60vh;
+      }
+      .map-breadcrumb { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR (dark mode) -->
+<nav class="navbar" id="navbar" style="background: rgba(13,9,6,0.95); border-bottom: 1px solid rgba(200,81,27,0.15);">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#1A0F00"/>
+        <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+        <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+        <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+        <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+        <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+      </svg>
+      <span class="nav-logo-text" style="color:#FDF6EC;">Pilgrim<span style="color:#C8511B;">OS</span></span>
+    </a>
+    <ul class="nav-links" style="--nav-link-color: rgba(253,246,236,0.6);">
+      <li><a href="index.html" style="color:rgba(253,246,236,0.6);">Home</a></li>
+      <li><a href="explore.html" style="color:rgba(253,246,236,0.6);">Explore</a></li>
+      <li><a href="shrine.html" style="color:rgba(253,246,236,0.6);">Kashi Vishwanath</a></li>
+      <li><a href="planner.html" style="color:rgba(253,246,236,0.6);">Planner</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="shrine.html" class="btn btn-ghost btn-sm" style="border-color:rgba(253,246,236,0.2);color:rgba(253,246,236,0.7);">← Back to Shrine</a>
+      <a href="booking-darshan.html" class="btn btn-primary btn-sm">Book Darshan →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     CROWD MAP LAYOUT
+============================================================ -->
+<div class="crowd-page-layout">
+
+  <!-- ===== MAP VIEWPORT ===== -->
+  <div class="map-viewport">
+    <div class="map-bg-pattern"></div>
+
+    <!-- Breadcrumb -->
+    <div class="map-breadcrumb">
+      <a href="shrine.html">Kashi Vishwanath</a>
+      <span style="opacity:0.3;">›</span>
+      <span>🗺️ Live Crowd Map</span>
+    </div>
+
+    <!-- Zoom Controls -->
+    <div class="map-controls">
+      <button class="map-ctrl-btn" id="zoom-in-btn" title="Zoom In">+</button>
+      <button class="map-ctrl-btn" id="zoom-out-btn" title="Zoom Out">−</button>
+      <button class="map-ctrl-btn" title="Reset View" id="reset-view-btn">⊕</button>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="zone-tooltip" id="zone-tooltip"></div>
+
+    <!-- SVG Temple Floor Plan -->
+    <svg id="temple-floor-plan" viewBox="0 0 600 560" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform-origin: center; user-select: none;">
+
+      <!-- ============ PARKING OUTER RING ============ -->
+      <rect x="10" y="10" width="580" height="540" rx="24" fill="rgba(200,81,27,0.04)" stroke="rgba(200,81,27,0.2)" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="300" y="28" class="zone-label" style="font-size:9px; fill:rgba(200,81,27,0.4); letter-spacing:2px;">TEMPLE COMPLEX PERIMETER</text>
+
+      <!-- Parking area label -->
+      <text x="80" y="520" class="zone-label" style="font-size:8px; fill:rgba(253,246,236,0.2);">P A R K I N G</text>
+      <text x="520" y="520" class="zone-label" style="font-size:8px; fill:rgba(253,246,236,0.2);">P A R K I N G</text>
+
+      <!-- Parking zone fills (corners) -->
+      <rect id="zone-parking-nw" x="14" y="14" width="100" height="80" rx="10" class="zone-fill" fill="#2D7A4F" fill-opacity="0.18" stroke="rgba(45,122,79,0.3)" stroke-width="1"/>
+      <text x="64" y="50" class="zone-label" style="font-size:8px;">Parking</text>
+      <text x="64" y="62" class="zone-occ-label" id="park-nw-occ">23%</text>
+
+      <rect id="zone-parking-ne" x="486" y="14" width="100" height="80" rx="10" class="zone-fill" fill="#2D7A4F" fill-opacity="0.18" stroke="rgba(45,122,79,0.3)" stroke-width="1"/>
+      <text x="536" y="50" class="zone-label" style="font-size:8px;">Parking</text>
+      <text x="536" y="62" class="zone-occ-label" id="park-ne-occ">31%</text>
+
+      <rect id="zone-parking-sw" x="14" y="466" width="100" height="80" rx="10" class="zone-fill" fill="#2D7A4F" fill-opacity="0.18" stroke="rgba(45,122,79,0.3)" stroke-width="1"/>
+      <text x="64" y="502" class="zone-label" style="font-size:8px;">Parking</text>
+      <text x="64" y="514" class="zone-occ-label" id="park-sw-occ">18%</text>
+
+      <rect id="zone-parking-se" x="486" y="466" width="100" height="80" rx="10" class="zone-fill" fill="#2D7A4F" fill-opacity="0.18" stroke="rgba(45,122,79,0.3)" stroke-width="1"/>
+      <text x="536" y="502" class="zone-label" style="font-size:8px;">Parking</text>
+      <text x="536" y="514" class="zone-occ-label" id="park-se-occ">27%</text>
+
+      <!-- ============ FACILITIES BLOCK ============ -->
+      <rect id="zone-facilities" x="30" y="220" width="100" height="120" rx="10" class="zone-fill" fill="#2D7A4F" fill-opacity="0.12" stroke="rgba(45,122,79,0.25)" stroke-width="1"/>
+      <text x="80" y="268" class="zone-label" style="font-size:8px;">Facilities</text>
+      <text x="80" y="281" class="zone-occ-label">🔒 Lockers</text>
+      <text x="80" y="294" class="zone-occ-label">🚿 Washrooms</text>
+      <text x="80" y="307" class="zone-occ-label">🙏 Prasad</text>
+
+      <!-- ============ OUTER COMPOUND WALL ============ -->
+      <rect x="130" y="100" width="340" height="360" rx="16" fill="rgba(26,15,0,0.4)" stroke="rgba(200,81,27,0.35)" stroke-width="2"/>
+
+      <!-- 4 ENTRY GATES -->
+      <!-- North Gate -->
+      <rect x="260" y="96" width="80" height="20" rx="6" fill="#1A0F00" stroke="rgba(200,81,27,0.5)" stroke-width="1.5"/>
+      <text x="300" y="108" class="zone-label" style="fill:#D4A017;">↑ NORTH GATE</text>
+
+      <!-- South Gate -->
+      <rect x="260" y="444" width="80" height="20" rx="6" fill="#1A0F00" stroke="rgba(200,81,27,0.5)" stroke-width="1.5"/>
+      <text x="300" y="456" class="zone-label" style="fill:#D4A017;">↓ SOUTH GATE</text>
+
+      <!-- East Gate -->
+      <rect x="464" y="265" width="20" height="30" rx="6" fill="#1A0F00" stroke="rgba(200,81,27,0.5)" stroke-width="1.5"/>
+      <text x="494" y="281" class="zone-label" style="font-size:8px; fill:#D4A017; writing-mode:horizontal-tb;">→ E</text>
+
+      <!-- West Gate -->
+      <rect x="116" y="265" width="20" height="30" rx="6" fill="#1A0F00" stroke="rgba(200,81,27,0.5)" stroke-width="1.5"/>
+      <text x="112" y="281" class="zone-label" style="font-size:8px; fill:#D4A017;">W ←</text>
+
+      <!-- ============ QUEUE ZONES A, B, C, D ============ -->
+      <!-- Zone A — North approach queue -->
+      <rect id="zone-A" x="210" y="120" width="180" height="60" rx="8" class="zone-fill" fill="#C8511B" fill-opacity="0.5" stroke="#C8511B" stroke-width="1"/>
+      <text x="300" y="146" class="zone-label">ZONE A — North Queue</text>
+      <text x="300" y="160" class="zone-occ-label" id="zone-A-occ">72%</text>
+
+      <!-- Zone B — South approach queue -->
+      <rect id="zone-B" x="210" y="380" width="180" height="60" rx="8" class="zone-fill" fill="#D4A017" fill-opacity="0.4" stroke="#D4A017" stroke-width="1"/>
+      <text x="300" y="406" class="zone-label">ZONE B — South Queue</text>
+      <text x="300" y="420" class="zone-occ-label" id="zone-B-occ">48%</text>
+
+      <!-- Zone C — West wing corridor -->
+      <rect id="zone-C" x="145" y="220" width="80" height="120" rx="8" class="zone-fill" fill="#2D7A4F" fill-opacity="0.3" stroke="#2D7A4F" stroke-width="1"/>
+      <text x="185" y="274" class="zone-label" style="font-size:9px;">ZONE C</text>
+      <text x="185" y="288" class="zone-occ-label" id="zone-C-occ">34%</text>
+
+      <!-- Zone D — East wing corridor -->
+      <rect id="zone-D" x="375" y="220" width="80" height="120" rx="8" class="zone-fill" fill="#B91C1C" fill-opacity="0.5" stroke="#B91C1C" stroke-width="1" class="zone-critical"/>
+      <text x="415" y="274" class="zone-label" style="font-size:9px;">ZONE D</text>
+      <text x="415" y="288" class="zone-occ-label" id="zone-D-occ">91%</text>
+
+      <!-- ============ PRADAKSHINA PATH (Circumambulation corridor) ============ -->
+      <!-- Outer path ring -->
+      <rect x="218" y="190" width="164" height="180" rx="12" fill="none" stroke="rgba(212,160,23,0.3)" stroke-width="16" stroke-dasharray="0"/>
+      <!-- Inner path boundary -->
+      <rect x="234" y="206" width="132" height="148" rx="8" fill="none" stroke="rgba(212,160,23,0.15)" stroke-width="2"/>
+
+      <!-- Pradakshina fill (walkway) - split into segments -->
+      <!-- Top segment -->
+      <rect id="prad-top" x="220" y="192" width="160" height="28" rx="0" class="zone-fill" fill="#D4A017" fill-opacity="0.25" stroke="rgba(212,160,23,0.2)" stroke-width="0.5"/>
+      <!-- Bottom segment -->
+      <rect id="prad-bot" x="220" y="340" width="160" height="28" rx="0" class="zone-fill" fill="#C8511B" fill-opacity="0.4" stroke="rgba(200,81,27,0.2)" stroke-width="0.5"/>
+      <!-- Left segment -->
+      <rect id="prad-left" x="220" y="220" width="28" height="120" rx="0" class="zone-fill" fill="#2D7A4F" fill-opacity="0.25" stroke="rgba(45,122,79,0.2)" stroke-width="0.5"/>
+      <!-- Right segment -->
+      <rect id="prad-right" x="352" y="220" width="28" height="120" rx="0" class="zone-fill" fill="#D4A017" fill-opacity="0.35" stroke="rgba(212,160,23,0.2)" stroke-width="0.5"/>
+
+      <text x="300" y="207" class="zone-occ-label" style="font-size:8px; fill:rgba(212,160,23,0.6);">Pradakshina Path</text>
+
+      <!-- ============ INNER SANCTUM (Garbhagriha) ============ -->
+      <rect x="244" y="216" width="112" height="128" rx="10" fill="rgba(26,15,0,0.8)" stroke="rgba(212,160,23,0.6)" stroke-width="2"/>
+
+      <!-- Shivling symbol -->
+      <ellipse cx="300" cy="272" rx="16" ry="20" fill="rgba(212,160,23,0.15)" stroke="rgba(212,160,23,0.5)" stroke-width="1.5"/>
+      <ellipse cx="300" cy="268" rx="8" ry="12" fill="rgba(212,160,23,0.25)" stroke="rgba(212,160,23,0.7)" stroke-width="1"/>
+      <!-- Glow -->
+      <ellipse cx="300" cy="272" rx="24" ry="28" fill="none" stroke="rgba(212,160,23,0.12)" stroke-width="8"/>
+      <ellipse cx="300" cy="272" rx="32" ry="38" fill="none" stroke="rgba(212,160,23,0.06)" stroke-width="8"/>
+
+      <text x="300" y="306" class="zone-label" style="font-size:9px; fill:rgba(212,160,23,0.9);">Garbhagriha</text>
+      <text x="300" y="318" class="zone-occ-label" style="fill:rgba(212,160,23,0.5);">Sacred Sanctum</text>
+      <text x="300" y="230" class="zone-occ-label" id="sanctum-occ" style="fill:rgba(200,81,27,0.8); font-size:8px; font-weight:700;">Controlled Access</text>
+
+      <!-- Temple spire indicator -->
+      <polygon points="300,196 308,218 292,218" fill="rgba(212,160,23,0.4)" stroke="rgba(212,160,23,0.7)" stroke-width="1"/>
+      <line x1="300" x2="300" y1="180" y2="196" stroke="rgba(212,160,23,0.4)" stroke-width="2"/>
+
+    </svg>
+
+    <!-- Legend -->
+    <div class="map-legend">
+      <div class="legend-title">Crowd Density</div>
+      <div class="legend-row">
+        <div class="legend-swatch" style="background:#2D7A4F; opacity:0.6;"></div>
+        <span>Low (0–40%)</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-swatch" style="background:#D4A017; opacity:0.6;"></div>
+        <span>Moderate (40–70%)</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-swatch" style="background:#C8511B; opacity:0.7;"></div>
+        <span>High (70–90%)</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-swatch" style="background:#B91C1C; opacity:0.8;"></div>
+        <span>Critical (90–100%)</span>
+      </div>
+    </div>
+
+    <!-- Last Updated Badge -->
+    <div class="map-update-badge">
+      <span class="update-live-dot"></span>
+      <span>Live · Updated <span id="last-update-time">just now</span></span>
+    </div>
+  </div>
+
+  <!-- ===== INFO PANEL ===== -->
+  <div class="crowd-info-panel">
+    <div class="panel-header">
+      <div class="panel-title">Live Crowd Status</div>
+      <div class="panel-subtitle">Kashi Vishwanath Temple Complex · Varanasi</div>
+
+      <div class="panel-overall-badge" id="overall-badge">
+        <span class="overall-crowd-icon">🟠</span>
+        <div>
+          <div class="overall-label" id="overall-label">Moderate–High Crowd</div>
+          <div class="overall-sub">Overall complex occupancy: <strong id="overall-pct" style="color:#C8511B;">64%</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zone Table -->
+    <div class="zone-table-wrap">
+      <div class="zone-table-header">
+        <span>Zone</span>
+        <span style="text-align:center;">Occ.</span>
+        <span>Status</span>
+      </div>
+      <div id="zone-rows-container">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="panel-recs">
+      <div class="rec-title">AI Recommendations</div>
+      <div class="rec-item">
+        <div class="rec-dot" style="background:#2D7A4F;"></div>
+        <span id="rec-1">Enter via <strong style="color:#FDF6EC;">West Gate</strong> — Zone C is currently at 34% capacity. Shortest wait.</span>
+      </div>
+      <div class="rec-item">
+        <div class="rec-dot" style="background:#D4A017;"></div>
+        <span id="rec-2">Avoid <strong style="color:#FDF6EC;">East Zone D</strong> — critical congestion. Temple staff are managing flow.</span>
+      </div>
+      <div class="rec-item">
+        <div class="rec-dot"></div>
+        <span id="rec-3">Best window today: <strong style="color:#FDF6EC;">6:30 AM – 8:00 AM</strong> — historically 28% occupancy.</span>
+      </div>
+    </div>
+
+    <!-- Footer CTAs -->
+    <div class="panel-footer">
+      <a href="booking-darshan.html" class="btn btn-primary">Book Darshan Slot →</a>
+      <a href="shrine.html" class="btn btn-ghost">← Shrine Overview</a>
+      <div class="next-update-timer">Next auto-refresh in <span class="timer-countdown" id="countdown-timer">5</span>s</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   CROWD HEAT MAP — LIVE SIMULATION ENGINE
+============================================================ */
+'use strict';
+
+// Zone definitions with initial occupancy
+const ZONES = [
+  {
+    id: 'zone-A', name: 'Zone A', desc: 'North approach queue', occ: 72,
+    occEl: 'zone-A-occ', delta: [-4, 4], type: 'queue'
+  },
+  {
+    id: 'zone-B', name: 'Zone B', desc: 'South approach queue', occ: 48,
+    occEl: 'zone-B-occ', delta: [-3, 5], type: 'queue'
+  },
+  {
+    id: 'zone-C', name: 'Zone C', desc: 'West corridor', occ: 34,
+    occEl: 'zone-C-occ', delta: [-3, 3], type: 'corridor'
+  },
+  {
+    id: 'zone-D', name: 'Zone D', desc: 'East corridor', occ: 91,
+    occEl: 'zone-D-occ', delta: [-5, 3], type: 'corridor'
+  },
+  {
+    id: 'prad-top', name: 'Pradakshina North', desc: 'Circumambulation path — North', occ: 52,
+    occEl: null, delta: [-4, 4], type: 'prad'
+  },
+  {
+    id: 'prad-bot', name: 'Pradakshina South', desc: 'Circumambulation path — South', occ: 68,
+    occEl: null, delta: [-4, 4], type: 'prad'
+  },
+  {
+    id: 'prad-left', name: 'Pradakshina West', desc: 'Circumambulation path — West', occ: 35,
+    occEl: null, delta: [-3, 4], type: 'prad'
+  },
+  {
+    id: 'prad-right', name: 'Pradakshina East', desc: 'Circumambulation path — East', occ: 77,
+    occEl: null, delta: [-4, 3], type: 'prad'
+  },
+  {
+    id: 'zone-parking-nw', name: 'Parking NW', desc: 'North-West parking block', occ: 23,
+    occEl: 'park-nw-occ', delta: [-2, 4], type: 'parking'
+  },
+  {
+    id: 'zone-parking-ne', name: 'Parking NE', desc: 'North-East parking block', occ: 31,
+    occEl: 'park-ne-occ', delta: [-2, 3], type: 'parking'
+  },
+  {
+    id: 'zone-parking-sw', name: 'Parking SW', desc: 'South-West parking block', occ: 18,
+    occEl: 'park-sw-occ', delta: [-2, 3], type: 'parking'
+  },
+  {
+    id: 'zone-parking-se', name: 'Parking SE', desc: 'South-East parking block', occ: 27,
+    occEl: 'park-se-occ', delta: [-3, 3], type: 'parking'
+  },
+];
+
+function getZoneColor(occ) {
+  if (occ >= 90) return { fill: '#B91C1C', opacity: 0.6, chipClass: 'chip-crit', chipText: 'Critical' };
+  if (occ >= 70) return { fill: '#C8511B', opacity: 0.5, chipClass: 'chip-high', chipText: 'High' };
+  if (occ >= 40) return { fill: '#D4A017', opacity: 0.4, chipClass: 'chip-mod', chipText: 'Moderate' };
+  return { fill: '#2D7A4F', opacity: 0.3, chipClass: 'chip-low', chipText: 'Low' };
+}
+
+function applyZoneColors() {
+  ZONES.forEach(z => {
+    const el = document.getElementById(z.id);
+    if (!el) return;
+    const { fill, opacity } = getZoneColor(z.occ);
+    el.setAttribute('fill', fill);
+    el.setAttribute('fill-opacity', opacity);
+
+    if (z.id === 'zone-D' && z.occ >= 90) {
+      el.classList.add('zone-critical');
+    } else {
+      el.classList.remove('zone-critical');
+    }
+
+    // Update inline occ label
+    if (z.occEl) {
+      const occLabelEl = document.getElementById(z.occEl);
+      if (occLabelEl) occLabelEl.textContent = z.occ + '%';
+    }
+  });
+}
+
+function renderZoneTable() {
+  const container = document.getElementById('zone-rows-container');
+  if (!container) return;
+
+  const displayZones = ZONES.filter(z => z.type !== 'prad' && z.type !== 'parking');
+
+  container.innerHTML = displayZones.map((z, i) => {
+    const { chipClass, chipText } = getZoneColor(z.occ);
+    const barColor = getZoneColor(z.occ).fill;
+    return `
+      <div class="zone-row" id="row-${z.id}" onclick="highlightZone('${z.id}')">
+        <div>
+          <div class="zone-name">${z.name}</div>
+          <div class="zone-desc">${z.desc}</div>
+        </div>
+        <div class="zone-occ-pct" id="row-occ-${z.id}" style="color:${barColor};">${z.occ}%</div>
+        <div>
+          <div class="zone-bar-wrap" style="margin-bottom:4px;">
+            <div class="zone-bar-track">
+              <div class="zone-bar-fill" id="bar-${z.id}" style="width:${z.occ}%; background:${barColor};"></div>
+            </div>
+          </div>
+          <span class="zone-chip ${chipClass}">${chipText}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Add parking section separator
+  container.innerHTML += `
+    <div style="margin-top:20px; margin-bottom:8px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:rgba(253,246,236,0.3);">Parking Areas</div>
+  `;
+
+  const parkingZones = ZONES.filter(z => z.type === 'parking');
+  parkingZones.forEach(z => {
+    const { chipClass, chipText } = getZoneColor(z.occ);
+    const barColor = getZoneColor(z.occ).fill;
+    container.innerHTML += `
+      <div class="zone-row" id="row-${z.id}" onclick="highlightZone('${z.id}')">
+        <div>
+          <div class="zone-name" style="font-size:13px;">${z.name}</div>
+          <div class="zone-desc">${z.desc}</div>
+        </div>
+        <div class="zone-occ-pct" id="row-occ-${z.id}" style="color:${barColor}; font-size:15px;">${z.occ}%</div>
+        <div>
+          <div class="zone-bar-wrap" style="margin-bottom:4px;">
+            <div class="zone-bar-track">
+              <div class="zone-bar-fill" id="bar-${z.id}" style="width:${z.occ}%; background:${barColor};"></div>
+            </div>
+          </div>
+          <span class="zone-chip ${chipClass}">${chipText}</span>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function updateZoneTableRow(z) {
+  const rowOcc = document.getElementById(`row-occ-${z.id}`);
+  const bar = document.getElementById(`bar-${z.id}`);
+  if (!rowOcc || !bar) return;
+
+  const { fill, chipClass, chipText } = getZoneColor(z.occ);
+  rowOcc.textContent = z.occ + '%';
+  rowOcc.style.color = fill;
+  bar.style.width = z.occ + '%';
+  bar.style.background = fill;
+
+  // Update chip
+  const row = document.getElementById(`row-${z.id}`);
+  if (row) {
+    const chip = row.querySelector('.zone-chip');
+    if (chip) {
+      chip.className = `zone-chip ${chipClass}`;
+      chip.textContent = chipText;
+    }
+  }
+}
+
+function updateOverall() {
+  const queueZones = ZONES.filter(z => z.type === 'queue' || z.type === 'corridor');
+  const avg = Math.round(queueZones.reduce((sum, z) => sum + z.occ, 0) / queueZones.length);
+
+  const overallPct = document.getElementById('overall-pct');
+  const overallLabel = document.getElementById('overall-label');
+  const badge = document.getElementById('overall-badge');
+
+  if (overallPct) overallPct.textContent = avg + '%';
+
+  let labelText, iconChar;
+  if (avg >= 90) {
+    labelText = 'Critical Occupancy — Wait Expected';
+    iconChar = '🔴';
+    if (badge) badge.style.borderColor = 'rgba(185,28,28,0.4)';
+    if (overallPct) overallPct.style.color = '#B91C1C';
+  } else if (avg >= 70) {
+    labelText = 'High Crowd — Plan Accordingly';
+    iconChar = '🟠';
+    if (badge) badge.style.borderColor = 'rgba(200,81,27,0.4)';
+    if (overallPct) overallPct.style.color = '#C8511B';
+  } else if (avg >= 40) {
+    labelText = 'Moderate Crowd — Manageable';
+    iconChar = '🟡';
+    if (badge) badge.style.borderColor = 'rgba(212,160,23,0.4)';
+    if (overallPct) overallPct.style.color = '#D4A017';
+  } else {
+    labelText = 'Low Crowd — Ideal Time to Visit';
+    iconChar = '🟢';
+    if (badge) badge.style.borderColor = 'rgba(45,122,79,0.4)';
+    if (overallPct) overallPct.style.color = '#2D7A4F';
+  }
+
+  if (overallLabel) overallLabel.textContent = labelText;
+  const iconEl = badge?.querySelector('.overall-crowd-icon');
+  if (iconEl) iconEl.textContent = iconChar;
+
+  // Update recommendations based on data
+  updateRecommendations();
+}
+
+function updateRecommendations() {
+  const zoneC = ZONES.find(z => z.id === 'zone-C');
+  const zoneD = ZONES.find(z => z.id === 'zone-D');
+  const zoneA = ZONES.find(z => z.id === 'zone-A');
+
+  const lowestQueue = ZONES.filter(z => z.type === 'queue' || z.type === 'corridor')
+    .reduce((min, z) => z.occ < min.occ ? z : min);
+
+  const rec1 = document.getElementById('rec-1');
+  const rec2 = document.getElementById('rec-2');
+  if (rec1) {
+    rec1.innerHTML = `Enter via <strong style="color:#FDF6EC;">${lowestQueue.name} gate area</strong> — ${lowestQueue.desc} at ${lowestQueue.occ}% capacity.`;
+  }
+  if (rec2 && zoneD) {
+    if (zoneD.occ >= 80) {
+      rec2.innerHTML = `Avoid <strong style="color:#FDF6EC;">East Zone D</strong> — ${zoneD.occ}% congestion. Temple staff managing flow.`;
+    } else {
+      rec2.innerHTML = `<strong style="color:#FDF6EC;">East Zone D</strong> improving — now at ${zoneD.occ}%. Monitor before entry.`;
+    }
+  }
+}
+
+// Fluctuation engine — runs every 5 seconds
+let countdown = 5;
+let secondsInterval;
+let updateInterval;
+
+function runFluctuations() {
+  ZONES.forEach(z => {
+    const [minD, maxD] = z.delta;
+    const change = Math.floor(Math.random() * (maxD - minD + 1)) + minD;
+    z.occ = Math.max(5, Math.min(100, z.occ + change));
+  });
+
+  applyZoneColors();
+
+  // Update table rows for queue/corridor zones only
+  ZONES.filter(z => z.type !== 'prad').forEach(z => updateZoneTableRow(z));
+
+  updateOverall();
+
+  // Update last updated time
+  const timeEl = document.getElementById('last-update-time');
+  if (timeEl) timeEl.textContent = 'just now';
+
+  // Reset countdown
+  countdown = 5;
+}
+
+function startCountdown() {
+  secondsInterval = setInterval(() => {
+    countdown--;
+    const el = document.getElementById('countdown-timer');
+    if (el) el.textContent = countdown;
+    if (countdown <= 0) {
+      countdown = 5;
+    }
+  }, 1000);
+}
+
+function highlightZone(zoneId) {
+  const el = document.getElementById(zoneId);
+  if (!el) return;
+
+  // Remove all active zone rows
+  document.querySelectorAll('.zone-row').forEach(r => r.classList.remove('active-zone'));
+  const row = document.getElementById('row-' + zoneId);
+  if (row) {
+    row.classList.add('active-zone');
+    row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Flash the SVG zone
+  const originalOpacity = el.getAttribute('fill-opacity');
+  el.setAttribute('fill-opacity', '0.9');
+  setTimeout(() => el.setAttribute('fill-opacity', originalOpacity), 300);
+}
+
+// SVG zone hover tooltip
+function initZoneHover() {
+  const tooltip = document.getElementById('zone-tooltip');
+  const viewport = document.querySelector('.map-viewport');
+
+  ZONES.forEach(z => {
+    const el = document.getElementById(z.id);
+    if (!el) return;
+
+    el.addEventListener('mouseenter', (e) => {
+      const { chipText } = getZoneColor(z.occ);
+      tooltip.innerHTML = `
+        <strong>${z.name}</strong> — ${z.desc}<br/>
+        <span style="color:${getZoneColor(z.occ).fill};">⬤</span> ${z.occ}% occupied · ${chipText}
+      `;
+      tooltip.classList.add('visible');
+    });
+
+    el.addEventListener('mousemove', (e) => {
+      const rect = viewport.getBoundingClientRect();
+      const x = e.clientX - rect.left + 12;
+      const y = e.clientY - rect.top - 20;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    });
+
+    el.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('visible');
+    });
+
+    el.addEventListener('click', () => highlightZone(z.id));
+  });
+}
+
+// Zoom Controls
+let currentScale = 1;
+document.getElementById('zoom-in-btn')?.addEventListener('click', () => {
+  currentScale = Math.min(2, currentScale + 0.15);
+  document.getElementById('temple-floor-plan').style.transform = `scale(${currentScale})`;
+});
+document.getElementById('zoom-out-btn')?.addEventListener('click', () => {
+  currentScale = Math.max(0.5, currentScale - 0.15);
+  document.getElementById('temple-floor-plan').style.transform = `scale(${currentScale})`;
+});
+document.getElementById('reset-view-btn')?.addEventListener('click', () => {
+  currentScale = 1;
+  document.getElementById('temple-floor-plan').style.transform = 'scale(1)';
+});
+
+// INIT
+document.addEventListener('DOMContentLoaded', () => {
+  applyZoneColors();
+  renderZoneTable();
+  updateOverall();
+  initZoneHover();
+
+  updateInterval = setInterval(runFluctuations, 5000);
+  startCountdown();
+});
+</script>
+</body>
+</html>

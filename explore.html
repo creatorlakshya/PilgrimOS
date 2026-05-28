@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore Shrines — PilgrimOS</title>
+  <meta name="description" content="Discover and book darshan at 2,400+ temples and sacred shrines across India. Browse by circuit, state, or deity on PilgrimOS." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>🛕</text></svg>" />
+</head>
+<body>
+
+<div class="hero-gradient-bar"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#FDF6EC"/>
+        <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+        <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+        <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+        <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+        <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+      </svg>
+      <span class="nav-logo-text">Pilgrim<span>OS</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="explore.html" class="active">Explore Shrines</a></li>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="#" onclick="return false;">For Temples</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="btn btn-ghost btn-sm" onclick="return false;">Sign In</a>
+      <a href="#shrine-grid" class="btn btn-primary btn-sm">Book Now →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     EXPLORE HERO
+============================================================ -->
+<section class="explore-hero mandala-bg">
+  <div class="noise-overlay"></div>
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="section-label" style="justify-content:center;margin-bottom:12px;">Discover Sacred India</div>
+    <h1 class="explore-title">Find Your <span style="color:var(--saffron);font-style:italic;">Sacred</span> Space</h1>
+    <p class="explore-sub">Search across 2,400+ temples, ghats, and pilgrimage sites across Bharat</p>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="9" cy="9" r="6.5" stroke="#7A6652" stroke-width="1.5"/>
+        <path d="M14 14L18 18" stroke="#7A6652" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input
+        type="text"
+        class="search-bar"
+        id="shrine-search"
+        placeholder="Search by shrine, city, or circuit..."
+        autocomplete="off"
+      />
+      <button class="btn btn-primary search-btn btn-sm" id="search-btn">Search</button>
+    </div>
+
+    <!-- Filter Pills -->
+    <div class="filter-pills" id="filter-pills">
+      <button class="pill active" data-filter="all" id="pill-all">All Shrines</button>
+      <button class="pill" data-filter="char-dham" id="pill-char-dham">Char Dham</button>
+      <button class="pill" data-filter="jyotirlinga" id="pill-jyotirlinga">12 Jyotirlinga</button>
+      <button class="pill" data-filter="shakti-peetha" id="pill-shakti-peetha">Shakti Peetha</button>
+      <button class="pill" data-filter="vaishnavite" id="pill-vaishnavite">Vaishnavite</button>
+      <button class="pill" data-filter="south" id="pill-south">South India</button>
+      <button class="pill" data-filter="himalaya" id="pill-himalaya">Himalayan</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SHRINE GRID
+============================================================ -->
+<section class="shrine-section" id="shrine-grid">
+  <div class="container">
+    <div class="results-header">
+      <p class="results-count"><strong id="results-num">12</strong> shrines found</p>
+      <select class="sort-select" id="sort-select">
+        <option value="featured">Featured</option>
+        <option value="rating">Highest Rated</option>
+        <option value="crowd-low">Crowd: Low First</option>
+        <option value="crowd-high">Crowd: High First</option>
+      </select>
+    </div>
+    <div class="shrine-grid" id="shrines-container">
+      <!-- Cards injected by JS -->
+    </div>
+    <div id="no-results" style="display:none;text-align:center;padding:80px 0;">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="margin:0 auto 16px;display:block;opacity:0.3;">
+        <circle cx="32" cy="32" r="28" stroke="#C8511B" stroke-width="2"/>
+        <path d="M22 42L42 22M22 22l20 20" stroke="#C8511B" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <p style="font-size:18px;color:var(--muted);font-family:'Playfair Display',serif;">No shrines found</p>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px;">Try a different search or filter</p>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ============================================================
+     FEATURED CIRCUITS
+============================================================ -->
+<section class="circuits-section">
+  <div class="container">
+    <div class="circuits-header">
+      <div>
+        <div class="section-label">Sacred Routes</div>
+        <h2 class="section-title" style="margin-bottom:0;font-size:32px;">Featured Pilgrimage Circuits</h2>
+      </div>
+      <a href="#" class="btn btn-ghost btn-sm" onclick="return false;">View All Circuits</a>
+    </div>
+    <div class="circuits-scroll" id="circuits-scroll">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA
+============================================================ -->
+<section class="cta-banner">
+  <div class="container">
+    <h2 class="cta-banner-title">Ready to begin?</h2>
+    <p class="cta-banner-sub">Your perfect yatra is just three steps away.</p>
+    <div class="cta-banner-actions">
+      <a href="index.html" class="btn-white" id="cta-learn">Learn How It Works</a>
+      <a href="#shrine-search" class="btn-ghost-white" id="cta-search-more">Search Shrines</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <a href="index.html" class="nav-logo">
+            <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.06)"/>
+              <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+              <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+              <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+              <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+              <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+            </svg>
+            <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:white;">Pilgrim<span style="color:#C8511B;">OS</span></span>
+          </a>
+        </div>
+        <p class="footer-tagline">Built for Bharat's greatest journey.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Platform</p>
+        <ul class="footer-links">
+          <li><a href="explore.html">Explore Shrines</a></li>
+          <li><a href="#" onclick="return false;">Book Darshan</a></li>
+          <li><a href="#" onclick="return false;">Puja & Aarti</a></li>
+          <li><a href="#" onclick="return false;">Donate</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">For Temples</p>
+        <ul class="footer-links">
+          <li><a href="#" onclick="return false;">Temple Dashboard</a></li>
+          <li><a href="#" onclick="return false;">Crowd Management</a></li>
+          <li><a href="#" onclick="return false;">Donation Ledger</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-links">
+          <li><a href="#" onclick="return false;">About Us</a></li>
+          <li><a href="#" onclick="return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="return false;">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="gold-divider"></div>
+    <div class="footer-bottom" style="margin-top:24px;">
+      <p class="footer-copy">© 2026 PilgrimOS Technologies Pvt. Ltd. All rights reserved.</p>
+      <p class="footer-made">Made with 🙏 in Bangalore</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Booking Modal -->
+<div id="booking-modal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(26,15,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+  <div style="background:var(--white);border-radius:20px;padding:40px;max-width:460px;width:90%;position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.3);">
+    <button onclick="closeModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--muted);font-size:24px;line-height:1;">×</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

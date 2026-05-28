@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Aarti Session — PilgrimOS</title>
+  <meta name="description" content="Attend sacred Kashi Vishwanath temple aarti in person or sponsor from afar. Choose seating maps, announce family Gotra during recitations." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles-extra.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>🛕</text></svg>" />
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<div class="hero-gradient-bar"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#FDF6EC"/>
+        <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+        <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+        <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+        <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+        <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+      </svg>
+      <span class="nav-logo-text">Pilgrim<span>OS</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="explore.html" class="active">Explore Shrines</a></li>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="#" onclick="return false;">For Temples</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="shrine.html" class="btn btn-ghost btn-sm">Temple Profile</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     BREADCRUMBS & CONTENT
+============================================================ -->
+<section class="section" style="padding: 40px 0 80px;">
+  <div class="container">
+    
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs" style="color: var(--muted); margin-bottom: 32px;">
+      <a href="index.html" style="color: var(--muted);">Home</a>
+      <span>&gt;</span>
+      <a href="explore.html" style="color: var(--muted);">Explore</a>
+      <span>&gt;</span>
+      <a href="shrine.html" style="color: var(--muted);">Kashi Vishwanath</a>
+      <span>&gt;</span>
+      <span style="color: var(--saffron); font-weight: 600;">Aarti Booking</span>
+    </div>
+
+    <!-- Page Title -->
+    <div style="text-align: center; margin-bottom: 48px;">
+      <div class="section-label" style="justify-content:center;">Sacred Flame</div>
+      <h1 style="font-family:'Playfair Display',serif; font-size:36px; font-weight:700; color:var(--dark); margin-top:8px;">
+        Kashi Aarti Sessions
+      </h1>
+      <p style="font-size:15px; color:var(--muted); margin-top:8px;">Participate in the eternal flame rituals of Shiva</p>
+    </div>
+
+    <!-- SUCCESS SCREEN CONTAINER -->
+    <div id="aarti-flow-container">
+      
+      <!-- ============================================================
+           AARTI SCHEDULE CARDS
+      ============================================================ -->
+      <div class="aarti-grid">
+        <div class="aarti-card" onclick="selectAartiSession('mangala', 'Mangala Aarti — 4:00 AM')" style="border-left: 4px solid var(--saffron); cursor:pointer;">
+          <div class="aarti-time">🌅 4:00 AM Session</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; margin-bottom:6px;">Mangala Aarti</h3>
+          <p style="font-size:13px; color:var(--muted); line-height:1.5;">The primordial morning offering. Sanctified atmosphere. Highly auspicious.</p>
+          <span class="tier-badge-label" style="position:static; display:inline-block; margin-top:12px; background:rgba(200,81,27,0.1); color:var(--saffron);">Limited seats</span>
+        </div>
+
+        <div class="aarti-card" onclick="selectAartiSession('sandhya', 'Sandhya Aarti — 7:00 PM')" style="border-left: 4px solid var(--gold); cursor:pointer;">
+          <div class="aarti-time">🌇 7:00 PM Session</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; margin-bottom:6px;">Sandhya Aarti</h3>
+          <p style="font-size:13px; color:var(--muted); line-height:1.5;">The grand twilight flame ritual. Harmonious chants and bells across Varanasi Ghats.</p>
+          <span class="tier-badge-label" style="position:static; display:inline-block; margin-top:12px; background:rgba(45,122,79,0.1); color:var(--success);">Seats Available</span>
+        </div>
+
+        <div class="aarti-card" onclick="selectAartiSession('shayana', 'Shayana Aarti — 10:30 PM')" style="border-left: 4px solid #7A6652; cursor:pointer;">
+          <div class="aarti-time">🌙 10:30 PM Session</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; margin-bottom:6px;">Shayana Aarti</h3>
+          <p style="font-size:13px; color:var(--muted); line-height:1.5;">The serene evening retirement service. Pure devotional peace before temple closing.</p>
+          <span class="tier-badge-label" style="position:static; display:inline-block; margin-top:12px; background:rgba(45,122,79,0.1); color:var(--success);">Seats Available</span>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           FLOW CHOOOSER TABS
+      ============================================================ */ -->
+      <div style="display:flex; justify-content:center; gap:20px; border-bottom:1.5px solid var(--border); margin-bottom:40px; padding-bottom:1px;">
+        <button type="button" class="tab-item aarti-flow-tab active" data-flow="person" style="padding: 12px 24px; font-weight: 700;">Attend in Person</button>
+        <button type="button" class="tab-item aarti-flow-tab" data-flow="sponsor" style="padding: 12px 24px; font-weight: 700;">Sponsor This Aarti</button>
+      </div>
+
+      <!-- ============================================================
+           TWO-PANEL WORKFLOW
+      ============================================================ -->
+      <div class="wizard-container">
+        
+        <!-- Left Pane: Interaction Fields -->
+        <div>
+          <!-- Date selector -->
+          <div style="background:var(--white); border:1.5px solid var(--border); border-radius:16px; padding:32px; box-shadow:var(--card-shadow); margin-bottom:32px;">
+            <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark); margin-bottom:8px;">Choose Aarti Date</h3>
+            <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">Aarti registrations are open up to 30 days in advance</p>
+            <div style="display:flex; gap:12px; overflow-x:auto; padding-bottom:12px; scrollbar-width:none;">
+              <button class="pill" onclick="selectAartiDate(14)">June 14</button>
+              <button class="pill" onclick="selectAartiDate(15)">June 15</button>
+              <button class="pill" onclick="selectAartiDate(16)">June 16</button>
+              <button class="pill" onclick="selectAartiDate(17)">June 17</button>
+              <button class="pill" onclick="selectAartiDate(18)">June 18</button>
+              <button class="pill" onclick="selectAartiDate(19)">June 19</button>
+            </div>
+            <p id="selected-aarti-date-text" style="font-size:13px; color:var(--muted); margin-top:12px;">No date selected</p>
+          </div>
+
+          <!-- PANEL A: ATTEND IN PERSON -->
+          <div id="aarti-person-panel" style="display:block;">
+            <div class="seat-map-container" style="margin-top:0;">
+              <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark); margin-bottom:4px;">Aarti Seating Layout</h3>
+              <p style="font-size:13px; color:var(--muted);">Select your preferred seating tier proximity to the altar</p>
+              
+              <!-- Seat Legend -->
+              <div class="seat-legend" style="margin-top:20px;">
+                <div class="legend-item"><span class="legend-dot" style="background:var(--saffron);"></span> Front VIP (₹501)</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--gold);"></span> Middle Premium (₹251)</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#7A6652;"></span> Back General (₹101)</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--parchment-dark);"></span> Occupied</div>
+              </div>
+
+              <!-- Layout Matrix -->
+              <div id="seat-map-grid"></div>
+            </div>
+
+            <!-- Reminder settings -->
+            <div class="switch-container" style="margin-top:0; margin-bottom:32px;">
+              <div>
+                <strong style="color:var(--dark); font-size:14px; display:block;">Send Push Reminder SMS</strong>
+                <span style="font-size:12px; color:var(--muted);">We'll alert you 30 minutes before your scheduled aarti starts</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" checked />
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- PANEL B: SPONSOR AARTI (Hidden by default) -->
+          <div id="aarti-sponsor-panel" style="display:none; background:var(--white); border:1.5px solid var(--border); border-radius:16px; padding:32px; box-shadow:var(--card-shadow); margin-bottom:32px;">
+            <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark); margin-bottom:4px;">Aarti Sponsorship Offerings</h3>
+            <p style="font-size:13px; color:var(--muted); margin-bottom:24px;">Contribute to the temple operations. Your family gotram will be declared at the altar.</p>
+
+            <!-- Preset Amounts Selector -->
+            <div style="margin-bottom:20px;">
+              <label style="display:block; font-size:13px; font-weight:600; color:var(--dark); margin-bottom:8px;">Offering Presets</label>
+              <div class="presets-grid">
+                <button type="button" class="preset-btn selected" onclick="selectAartiSponsorPreset(this, 501)">₹501</button>
+                <button type="button" class="preset-btn" onclick="selectAartiSponsorPreset(this, 1100)">₹1,100</button>
+                <button type="button" class="preset-btn" onclick="selectAartiSponsorPreset(this, 2100)">₹2,100</button>
+                <button type="button" class="preset-btn" onclick="selectAartiSponsorPreset(this, 5100)">₹5,100</button>
+              </div>
+              <input type="number" class="form-input" id="sponsor-custom-amt" placeholder="Or enter Custom Amount (₹)" oninput="updateAartiSponsorCustom(this.value)" />
+            </div>
+
+            <!-- Occasion Details -->
+            <div class="form-row" style="grid-template-columns:1fr 1fr;">
+              <div>
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Occasion Category</label>
+                <select class="form-input" id="sponsor-occasion" onchange="aartiState.sponsorshipOccasion = this.value">
+                  <option>General Devotion</option>
+                  <option>Birthday Blessing</option>
+                  <option>Anniversary Blessing</option>
+                  <option>Memorial Rememberance</option>
+                </select>
+              </div>
+              <div>
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Devotee Family Name</label>
+                <input type="text" class="form-input" id="sponsor-name" placeholder="E.g. Sharma Family, Bangalore" oninput="aartiState.sponsorName = this.value" />
+              </div>
+            </div>
+
+            <div style="margin-top:16px;">
+              <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">On Behalf of (Ganga Sankalp Recitation)</label>
+              <input type="text" class="form-input" id="sponsor-behalf" placeholder="Family member names / spiritual purpose" oninput="aartiState.onBehalfOf = this.value" />
+            </div>
+
+            <!-- Announcement toggle -->
+            <div class="switch-container" style="margin-top:24px;">
+              <div>
+                <strong style="color:var(--dark); font-size:14px; display:block;">Read out my name in tonight's live announcement</strong>
+                <span style="font-size:12px; color:var(--muted);">Broadcasted locally and online via live feed</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="sponsor-announcement" checked onchange="aartiState.shrineAnnouncement = this.checked" />
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- DEVOTEE INFO & PAY BUTTON -->
+          <div style="background:var(--white); border:1.5px solid var(--border); border-radius:16px; padding:32px; box-shadow:var(--card-shadow);">
+            <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark); margin-bottom:16px;">Contact & Payments</h3>
+            <div class="form-row" style="grid-template-columns:1fr 1fr; margin-top:0; margin-bottom:24px;">
+              <div>
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Mobile Number</label>
+                <input type="tel" class="form-input" placeholder="9876543210" required />
+              </div>
+              <div>
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Email Address</label>
+                <input type="email" class="form-input" placeholder="yatri@domain.com" required />
+              </div>
+            </div>
+            
+            <form onsubmit="processAartiBooking(event)">
+              <button type="submit" class="btn btn-primary" id="aarti-booking-submit-btn" style="width: 100%; height:50px; font-size:16px;">
+                Secure Check-in &amp; Pay &rarr;
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right Pane: Invoice summary panel -->
+        <aside class="summary-card" id="aarti-invoice-panel"></aside>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <a href="index.html" class="nav-logo">
+            <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.06)"/>
+              <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+              <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+              <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+              <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+              <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+            </svg>
+            <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:white;">Pilgrim<span style="color:#C8511B;">OS</span></span>
+          </a>
+        </div>
+        <p class="footer-tagline">Built for Bharat's greatest journey.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Platform</p>
+        <ul class="footer-links">
+          <li><a href="explore.html">Explore Shrines</a></li>
+          <li><a href="booking-darshan.html">Book Darshan</a></li>
+          <li><a href="booking-aarti.html">Puja & Aarti</a></li>
+          <li><a href="donate.html">Donate</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="gold-divider"></div>
+    <div class="footer-bottom" style="margin-top:24px;">
+      <p class="footer-copy">© 2026 PilgrimOS Technologies Pvt. Ltd. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script src="app-extra.js"></script>
+</body>
+</html>

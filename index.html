@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PILGRIM OS — Your Yatra, Dignified & Seamless</title>
+  <meta name="description" content="Book darshan slots, aarti seats, pujas and donations across India's most sacred shrines — in one place. PILGRIM OS: The premium pilgrimage platform for Bharat." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>🛕</text></svg>" />
+</head>
+<body>
+
+<!-- Hero gradient bar -->
+<div class="hero-gradient-bar"></div>
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="10" fill="#FDF6EC"/>
+        <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+        <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+        <rect x="12" y="12" width="12" height="12" rx="2" fill="#C8511B" opacity="0.15"/>
+        <path d="M13 12h10v12H13z" fill="#C8511B" opacity="0.1"/>
+        <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+        <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+        <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+      </svg>
+      <span class="nav-logo-text">Pilgrim<span>OS</span></span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="explore.html">Explore Shrines</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#" onclick="return false;">For Temples</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="#" class="btn btn-ghost btn-sm" onclick="return false;">Sign In</a>
+      <a href="explore.html" class="btn btn-primary btn-sm">Start Yatra →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero mandala-bg" id="hero">
+  <div class="noise-overlay"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Left: Content -->
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="7" cy="7" r="3" fill="#C8511B"/>
+            <circle cx="7" cy="7" r="6" stroke="#C8511B" stroke-width="1" fill="none" opacity="0.4"/>
+          </svg>
+          India's First Pilgrimage OS
+        </div>
+        <h1 class="hero-title">
+          Your Yatra.<br/>
+          <span class="highlight">Dignified.</span><br/>
+          Seamless.
+        </h1>
+        <p class="hero-sub">
+          Book darshan slots, aarti seats, pujas and donations across India's most sacred shrines — in one place.
+        </p>
+        <div class="hero-cta-group">
+          <a href="explore.html" class="btn btn-primary" id="hero-cta-primary">
+            Start Your Yatra &rarr;
+          </a>
+          <a href="#" class="btn btn-ghost" id="hero-cta-temple" onclick="return false;">
+            For Temple Trusts
+          </a>
+        </div>
+        <div class="hero-stats-row">
+          <div class="hero-stat">
+            <span class="hero-stat-num">450M+</span>
+            <span class="hero-stat-label">Pilgrims served</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" style="color:var(--success);">Live</span>
+            <span class="hero-stat-label">Crowd tracking</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">12</span>
+            <span class="hero-stat-label">Languages</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Shrine Visual -->
+      <div class="hero-visual">
+        <div class="shrine-illustration" style="position:relative;">
+          <!-- Shrine SVG -->
+          <svg viewBox="0 0 460 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Background glow -->
+            <ellipse cx="230" cy="420" rx="160" ry="40" fill="rgba(200,81,27,0.08)"/>
+            <!-- Ground -->
+            <rect x="60" y="400" width="340" height="12" rx="6" fill="#E8D5B7"/>
+            <!-- Steps -->
+            <rect x="80" y="390" width="300" height="10" rx="4" fill="#F0E4CE"/>
+            <rect x="100" y="382" width="260" height="10" rx="4" fill="#F5EAD5"/>
+            <!-- Main structure -->
+            <rect x="120" y="280" width="220" height="102" rx="4" fill="#FDF6EC" stroke="#E8D5B7" stroke-width="1.5"/>
+            <!-- Pillar decorations -->
+            <rect x="130" y="290" width="14" height="90" rx="4" fill="#F0E4CE" stroke="#E8D5B7" stroke-width="1"/>
+            <rect x="316" y="290" width="14" height="90" rx="4" fill="#F0E4CE" stroke="#E8D5B7" stroke-width="1"/>
+            <!-- Door -->
+            <rect x="200" y="320" width="60" height="62" rx="6" fill="#C8511B" opacity="0.15"/>
+            <rect x="200" y="320" width="60" height="62" rx="6" stroke="#C8511B" stroke-width="1.5" fill="none"/>
+            <!-- Door arch -->
+            <path d="M200 340 Q230 310 260 340" stroke="#D4A017" stroke-width="2" fill="none"/>
+            <!-- Bell -->
+            <path d="M230 326 L224 312 Q230 306 236 312 Z" fill="#D4A017"/>
+            <circle cx="230" cy="312" r="3" fill="#C8511B"/>
+            <!-- Shikhara tiers -->
+            <rect x="145" y="234" width="170" height="48" rx="3" fill="#F5EAD5" stroke="#E8D5B7" stroke-width="1.2"/>
+            <rect x="160" y="194" width="140" height="44" rx="3" fill="#F0E4CE" stroke="#E8D5B7" stroke-width="1.2"/>
+            <rect x="178" y="158" width="104" height="40" rx="3" fill="#EAD9C0" stroke="#D4A017" stroke-width="1"/>
+            <rect x="196" y="124" width="68" height="38" rx="3" fill="#E4CFA8" stroke="#D4A017" stroke-width="1.2"/>
+            <rect x="208" y="96" width="44" height="32" rx="3" fill="#D4B87C" stroke="#C8A020" stroke-width="1"/>
+            <!-- Kalash -->
+            <ellipse cx="230" cy="82" rx="16" ry="10" fill="#D4A017"/>
+            <rect x="225" y="66" width="10" height="18" rx="3" fill="#D4A017"/>
+            <circle cx="230" cy="62" r="8" fill="#D4A017"/>
+            <circle cx="230" cy="58" r="4" fill="#C8A020"/>
+            <!-- Flag -->
+            <line x1="230" y1="30" x2="230" y2="58" stroke="#C8511B" stroke-width="1.5"/>
+            <path d="M230 30 L250 38 L230 46 Z" fill="#C8511B"/>
+            <!-- Decorative dots on shikhara -->
+            <circle cx="230" cy="200" r="3" fill="#D4A017" opacity="0.6"/>
+            <circle cx="215" cy="210" r="2" fill="#C8511B" opacity="0.4"/>
+            <circle cx="245" cy="210" r="2" fill="#C8511B" opacity="0.4"/>
+            <!-- Lamp flames -->
+            <ellipse cx="155" cy="392" rx="6" ry="10" fill="#D4A017" opacity="0.8"/>
+            <ellipse cx="155" cy="386" rx="3" ry="5" fill="#F0C040" opacity="0.9"/>
+            <ellipse cx="305" cy="392" rx="6" ry="10" fill="#D4A017" opacity="0.8"/>
+            <ellipse cx="305" cy="386" rx="3" ry="5" fill="#F0C040" opacity="0.9"/>
+            <!-- Lotus decorations -->
+            <g opacity="0.3" transform="translate(106, 278)">
+              <path d="M10 10 Q7 4 4 8 Q7 12 10 10Z" fill="#C8511B"/>
+              <path d="M10 10 Q13 4 16 8 Q13 12 10 10Z" fill="#C8511B"/>
+              <path d="M10 10 Q4 7 8 4 Q12 7 10 10Z" fill="#D4A017"/>
+              <path d="M10 10 Q16 7 12 4 Q8 7 10 10Z" fill="#D4A017"/>
+            </g>
+            <g opacity="0.3" transform="translate(330, 278)">
+              <path d="M10 10 Q7 4 4 8 Q7 12 10 10Z" fill="#C8511B"/>
+              <path d="M10 10 Q13 4 16 8 Q13 12 10 10Z" fill="#C8511B"/>
+              <path d="M10 10 Q4 7 8 4 Q12 7 10 10Z" fill="#D4A017"/>
+              <path d="M10 10 Q16 7 12 4 Q8 7 10 10Z" fill="#D4A017"/>
+            </g>
+          </svg>
+
+          <!-- Floating chips -->
+          <div class="floating-chip" style="top: 60px; right: -30px;">
+            <span class="chip-dot"></span>
+            450M+ pilgrims served
+          </div>
+          <div class="floating-chip" style="top: 180px; left: -40px;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <circle cx="7" cy="7" r="6" fill="rgba(45,122,79,0.15)"/>
+              <circle cx="7" cy="7" r="3" fill="#2D7A4F"/>
+            </svg>
+            Live crowd tracking
+          </div>
+          <div class="floating-chip" style="bottom: 130px; right: -20px;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <rect width="14" height="14" rx="4" fill="rgba(212,160,23,0.15)"/>
+              <path d="M3 7h8M7 3v8" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            12 languages
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRUST BAR
+============================================================ -->
+<div class="trust-bar">
+  <div class="marquee-track" id="marquee">
+    <!-- Items duplicated for seamless loop -->
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Kashi Vishwanath Trust
+    </div>
+    <span class="trust-sep">·</span>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Tirupati Devasthanam
+    </div>
+    <span class="trust-sep">·</span>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Vaishno Devi Shrine Board
+    </div>
+    <span class="trust-sep">·</span>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Char Dham Yatra Board
+    </div>
+    <span class="trust-sep">·</span>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Shirdi Sai Baba Sansthan
+    </div>
+    <span class="trust-sep">·</span>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Puri Jagannath Temple
+    </div>
+    <span class="trust-sep">·</span>
+    <!-- Duplicate for seamless loop -->
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Kashi Vishwanath Trust
+    </div>
+    <span class="trust-sep">·</span>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Tirupati Devasthanam
+    </div>
+    <span class="trust-sep">·</span>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Vaishno Devi Shrine Board
+    </div>
+    <span class="trust-sep">·</span>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Char Dham Yatra Board
+    </div>
+    <span class="trust-sep">·</span>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Shirdi Sai Baba Sansthan
+    </div>
+    <span class="trust-sep">·</span>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" fill="#D4A017"/></svg>
+      Puri Jagannath Temple
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     STATS ROW
+============================================================ -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card fade-up">
+        <div class="stat-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M11 2L13.5 7H18.5L14.5 10.5L16 16L11 13L6 16L7.5 10.5L3.5 7H8.5L11 2Z" fill="#C8511B" opacity="0.8"/>
+            <rect x="7" y="16" width="8" height="2" rx="1" fill="#C8511B"/>
+            <rect x="5" y="18" width="12" height="2" rx="1" fill="#D4A017"/>
+          </svg>
+        </div>
+        <div class="stat-number" data-count="2400">0</div>
+        <div class="stat-label">+ Temples on Platform</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="2" y="6" width="18" height="14" rx="3" stroke="#C8511B" stroke-width="1.5" fill="none"/>
+            <rect x="7" y="2" width="2" height="6" rx="1" fill="#C8511B"/>
+            <rect x="13" y="2" width="2" height="6" rx="1" fill="#C8511B"/>
+            <path d="M6 12h10M6 15h7" stroke="#C8511B" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="stat-number" data-count="18">0</div>
+        <div class="stat-label">M+ Slots Booked</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M11 3C11 3 6 7 6 11.5C6 14.5 8.2 17 11 17C13.8 17 16 14.5 16 11.5C16 7 11 3 11 3Z" fill="#D4A017" opacity="0.8"/>
+            <path d="M11 8C11 8 9 10 9 12C9 13.1 9.9 14 11 14C12.1 14 13 13.1 13 12C13 10 11 8 11 8Z" fill="#C8511B"/>
+            <path d="M8 18h6" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M9 20h4" stroke="#C8511B" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="stat-number" data-count="4.2">0</div>
+        <div class="stat-label">M+ Pujas Completed</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <circle cx="11" cy="11" r="8.5" stroke="#C8511B" stroke-width="1.5" fill="none"/>
+            <path d="M11 6v10M8 8.5h4.5a1.5 1.5 0 010 3H9.5a1.5 1.5 0 010 3H14" stroke="#C8511B" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="stat-number" data-count="840">0</div>
+        <div class="stat-label">Cr+ Donations Tracked</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ============================================================
+     FEATURES
+============================================================ -->
+<section class="features-section" id="features">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:64px;" class="fade-up">
+      <div class="section-label">Why PilgrimOS</div>
+      <h2 class="section-title">Everything your yatra deserves</h2>
+      <p class="section-sub" style="margin: 0 auto;">From first darshan to final aarti, every moment of your sacred journey — managed with the precision it deserves.</p>
+    </div>
+
+    <!-- Feature 1 -->
+    <div class="feature-block fade-up">
+      <div class="feature-content">
+        <div class="feature-number">01</div>
+        <div class="feature-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="3" y="8" width="22" height="17" rx="3" stroke="#C8511B" stroke-width="1.5" fill="none"/>
+            <rect x="9" y="3" width="2.5" height="7" rx="1.25" fill="#C8511B"/>
+            <rect x="16.5" y="3" width="2.5" height="7" rx="1.25" fill="#C8511B"/>
+            <path d="M8 16h12M8 20h8" stroke="#C8511B" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Darshan Slot Booking</h3>
+        <p class="feature-desc">"No more queues from 4 AM" — Reserve your darshan window days in advance. Walk in at your time, skip the crowds, worship in peace.</p>
+        <ul class="feature-bullets">
+          <li><span class="bullet-dot"></span>Choose preferred darshan time & duration</li>
+          <li><span class="bullet-dot"></span>QR-coded digital passes, no printing needed</li>
+          <li><span class="bullet-dot"></span>Real-time waitlist and slot availability</li>
+          <li><span class="bullet-dot"></span>Instant confirmation via SMS & app</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+          <rect width="400" height="300" fill="#FDF6EC"/>
+          <rect x="24" y="24" width="352" height="252" rx="12" fill="white" stroke="#E8D5B7" stroke-width="1"/>
+          <!-- Calendar header -->
+          <rect x="24" y="24" width="352" height="52" rx="12" fill="#C8511B"/>
+          <rect x="24" y="62" width="352" height="14" fill="#A03D12"/>
+          <text x="200" y="55" text-anchor="middle" fill="white" font-size="16" font-family="DM Sans, sans-serif" font-weight="600">June 2026</text>
+          <!-- Calendar days -->
+          <text x="56" y="105" text-anchor="middle" fill="#7A6652" font-size="11" font-family="DM Sans">Sun</text>
+          <text x="104" y="105" text-anchor="middle" fill="#7A6652" font-size="11" font-family="DM Sans">Mon</text>
+          <text x="152" y="105" text-anchor="middle" fill="#7A6652" font-size="11" font-family="DM Sans">Tue</text>
+          <text x="200" y="105" text-anchor="middle" fill="#7A6652" font-size="11" font-family="DM Sans">Wed</text>
+          <text x="248" y="105" text-anchor="middle" fill="#7A6652" font-size="11" font-family="DM Sans">Thu</text>
+          <text x="296" y="105" text-anchor="middle" fill="#7A6652" font-size="11" font-family="DM Sans">Fri</text>
+          <text x="344" y="105" text-anchor="middle" fill="#7A6652" font-size="11" font-family="DM Sans">Sat</text>
+          <!-- Date cells -->
+          <circle cx="248" cy="136" r="18" fill="#C8511B"/>
+          <text x="248" y="141" text-anchor="middle" fill="white" font-size="14" font-family="DM Sans" font-weight="600">12</text>
+          <text x="56" y="141" text-anchor="middle" fill="#1A0F00" font-size="14" font-family="DM Sans">8</text>
+          <text x="104" y="141" text-anchor="middle" fill="#1A0F00" font-size="14" font-family="DM Sans">9</text>
+          <text x="152" y="141" text-anchor="middle" fill="#1A0F00" font-size="14" font-family="DM Sans">10</text>
+          <text x="200" y="141" text-anchor="middle" fill="#1A0F00" font-size="14" font-family="DM Sans">11</text>
+          <text x="296" y="141" text-anchor="middle" fill="#1A0F00" font-size="14" font-family="DM Sans">13</text>
+          <text x="344" y="141" text-anchor="middle" fill="#1A0F00" font-size="14" font-family="DM Sans">14</text>
+          <!-- Time slots -->
+          <rect x="40" y="172" width="100" height="36" rx="8" fill="rgba(45,122,79,0.1)" stroke="rgba(45,122,79,0.3)" stroke-width="1"/>
+          <text x="90" y="188" text-anchor="middle" fill="#2D7A4F" font-size="11" font-family="DM Sans" font-weight="600">6:00 AM</text>
+          <text x="90" y="200" text-anchor="middle" fill="#2D7A4F" font-size="10" font-family="DM Sans">Available</text>
+          <rect x="152" y="172" width="100" height="36" rx="8" fill="rgba(200,81,27,0.08)" stroke="#C8511B" stroke-width="1.5"/>
+          <text x="202" y="188" text-anchor="middle" fill="#C8511B" font-size="11" font-family="DM Sans" font-weight="700">9:00 AM</text>
+          <text x="202" y="200" text-anchor="middle" fill="#C8511B" font-size="10" font-family="DM Sans">Selected ✓</text>
+          <rect x="264" y="172" width="100" height="36" rx="8" fill="rgba(120,96,72,0.06)" stroke="#E8D5B7" stroke-width="1"/>
+          <text x="314" y="188" text-anchor="middle" fill="#7A6652" font-size="11" font-family="DM Sans">12:00 PM</text>
+          <text x="314" y="200" text-anchor="middle" fill="#7A6652" font-size="10" font-family="DM Sans">Full</text>
+          <!-- Book button -->
+          <rect x="40" y="224" width="320" height="40" rx="20" fill="#C8511B"/>
+          <text x="200" y="249" text-anchor="middle" fill="white" font-size="14" font-family="DM Sans" font-weight="600">Confirm Darshan Slot →</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Feature 2 -->
+    <div class="feature-block reverse fade-up">
+      <div class="feature-content">
+        <div class="feature-number">02</div>
+        <div class="feature-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M14 4C14 4 8 9 8 14.5C8 17.9 10.7 20.5 14 20.5C17.3 20.5 20 17.9 20 14.5C20 9 14 4 14 4Z" stroke="#D4A017" stroke-width="1.5" fill="rgba(212,160,23,0.1)"/>
+            <path d="M14 10C14 10 11 12.5 11 14.5C11 16 12.3 17 14 17C15.7 17 17 16 17 14.5C17 12.5 14 10 14 10Z" fill="#D4A017"/>
+            <path d="M10 22h8M11 24h6" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Aarti & Puja Booking</h3>
+        <p class="feature-desc">"Sacred rituals, confirmed in seconds" — Select your puja type, choose a pandit, add gotram details, and receive a digital yajamana receipt.</p>
+        <ul class="feature-bullets">
+          <li><span class="bullet-dot"></span>100+ puja types across all traditions</li>
+          <li><span class="bullet-dot"></span>Select pandit by specialization & language</li>
+          <li><span class="bullet-dot"></span>Live aarti seating with tier selection</li>
+          <li><span class="bullet-dot"></span>Prasad delivery to your doorstep</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+          <rect width="400" height="300" fill="#FDF6EC"/>
+          <rect x="24" y="24" width="352" height="252" rx="12" fill="white" stroke="#E8D5B7"/>
+          <!-- Puja list -->
+          <text x="40" y="56" fill="#1A0F00" font-size="15" font-family="Playfair Display, serif" font-weight="700">Select Puja</text>
+          <!-- Puja items -->
+          <rect x="40" y="68" width="320" height="52" rx="10" fill="rgba(200,81,27,0.05)" stroke="#C8511B" stroke-width="1.5"/>
+          <text x="60" y="90" fill="#C8511B" font-size="13" font-family="DM Sans" font-weight="600">Rudrabhishek</text>
+          <text x="60" y="108" fill="#7A6652" font-size="11" font-family="DM Sans">45 min · Hindi, Sanskrit</text>
+          <text x="330" y="99" text-anchor="middle" fill="#C8511B" font-size="13" font-family="DM Sans" font-weight="700">₹1,100</text>
+          <rect x="40" y="130" width="320" height="52" rx="10" fill="white" stroke="#E8D5B7"/>
+          <text x="60" y="152" fill="#1A0F00" font-size="13" font-family="DM Sans" font-weight="600">Sahasranama Archana</text>
+          <text x="60" y="170" fill="#7A6652" font-size="11" font-family="DM Sans">30 min · Telugu, Sanskrit</text>
+          <text x="330" y="161" text-anchor="middle" fill="#7A6652" font-size="13" font-family="DM Sans">₹501</text>
+          <rect x="40" y="192" width="320" height="52" rx="10" fill="white" stroke="#E8D5B7"/>
+          <text x="60" y="214" fill="#1A0F00" font-size="13" font-family="DM Sans" font-weight="600">Abhishekam</text>
+          <text x="60" y="232" fill="#7A6652" font-size="11" font-family="DM Sans">60 min · Tamil, Sanskrit</text>
+          <text x="330" y="223" text-anchor="middle" fill="#7A6652" font-size="13" font-family="DM Sans">₹2,100</text>
+          <!-- Check mark on selected -->
+          <circle cx="348" cy="94" r="10" fill="#C8511B"/>
+          <path d="M343 94l3.5 3.5 6-6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Feature 3 -->
+    <div class="feature-block fade-up">
+      <div class="feature-content">
+        <div class="feature-number">03</div>
+        <div class="feature-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="10" stroke="#2D7A4F" stroke-width="1.5" fill="rgba(45,122,79,0.08)"/>
+            <circle cx="14" cy="14" r="4" fill="#2D7A4F"/>
+            <path d="M14 4v4M14 20v4M4 14h4M20 14h4" stroke="#2D7A4F" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Live Crowd Intelligence</h3>
+        <p class="feature-desc">"Know before you go" — Real-time crowd levels, wait time predictions, and the best windows to visit — powered by sensor data and ML.</p>
+        <ul class="feature-bullets">
+          <li><span class="bullet-dot"></span>Live heatmaps of temple premises</li>
+          <li><span class="bullet-dot"></span>Hourly crowd forecast for next 7 days</li>
+          <li><span class="bullet-dot"></span>Parking and transport availability</li>
+          <li><span class="bullet-dot"></span>Alert when crowd drops below threshold</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+          <rect width="400" height="300" fill="#FDF6EC"/>
+          <rect x="24" y="24" width="352" height="252" rx="12" fill="#1A0F00"/>
+          <text x="40" y="56" fill="white" font-size="15" font-family="DM Sans" font-weight="600">Live Crowd — Varanasi Ghat</text>
+          <text x="340" y="56" text-anchor="end" fill="rgba(255,255,255,0.4)" font-size="11" font-family="DM Sans">Updated 2s ago</text>
+          <!-- Heat bar -->
+          <rect x="40" y="68" width="320" height="10" rx="5" fill="rgba(255,255,255,0.1)"/>
+          <rect x="40" y="68" width="145" height="10" rx="5" fill="url(#crowdGrad)"/>
+          <defs>
+            <linearGradient id="crowdGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#2D7A4F"/>
+              <stop offset="100%" stop-color="#D97706"/>
+            </linearGradient>
+          </defs>
+          <text x="40" y="96" fill="#2D7A4F" font-size="32" font-family="Playfair Display, serif" font-weight="700">Moderate</text>
+          <text x="40" y="116" fill="rgba(255,255,255,0.4)" font-size="12" font-family="DM Sans">~45 min wait · 2,300 pilgrims</text>
+          <!-- Chart bars -->
+          <rect x="40" y="180" width="28" height="60" rx="4" fill="rgba(45,122,79,0.6)"/>
+          <rect x="78" y="160" width="28" height="80" rx="4" fill="rgba(45,122,79,0.6)"/>
+          <rect x="116" y="140" width="28" height="100" rx="4" fill="rgba(217,119,6,0.7)"/>
+          <rect x="154" y="120" width="28" height="120" rx="4" fill="rgba(220,38,38,0.7)"/>
+          <rect x="192" y="130" width="28" height="110" rx="4" fill="rgba(217,119,6,0.7)"/>
+          <rect x="230" y="150" width="28" height="90" rx="4" fill="rgba(45,122,79,0.6)"/>
+          <rect x="268" y="170" width="28" height="70" rx="4" fill="rgba(45,122,79,0.6)"/>
+          <rect x="306" y="185" width="28" height="55" rx="4" fill="rgba(45,122,79,0.5)"/>
+          <!-- Labels -->
+          <text x="54" y="252" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="9" font-family="DM Sans">6AM</text>
+          <text x="92" y="252" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="9" font-family="DM Sans">8AM</text>
+          <text x="130" y="252" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="9" font-family="DM Sans">10AM</text>
+          <text x="168" y="252" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="9" font-family="DM Sans">12PM</text>
+          <text x="206" y="252" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="9" font-family="DM Sans">2PM</text>
+          <text x="244" y="252" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="9" font-family="DM Sans">4PM</text>
+          <text x="282" y="252" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="9" font-family="DM Sans">6PM</text>
+          <text x="320" y="252" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="9" font-family="DM Sans">8PM</text>
+          <!-- Current indicator -->
+          <line x1="210" y1="140" x2="210" y2="245" stroke="white" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+          <circle cx="210" cy="140" r="4" fill="white"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Feature 4 -->
+    <div class="feature-block reverse fade-up">
+      <div class="feature-content">
+        <div class="feature-number">04</div>
+        <div class="feature-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="10" stroke="#C8511B" stroke-width="1.5" fill="rgba(200,81,27,0.08)"/>
+            <path d="M14 8v12M11 10.5h4.5a2 2 0 010 4H12a2 2 0 000 4H17" stroke="#C8511B" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Donation Tracking</h3>
+        <p class="feature-desc">"Give with trust, see the impact" — Every rupee donated is tracked on a public ledger. See exactly where your offering goes and what it built.</p>
+        <ul class="feature-bullets">
+          <li><span class="bullet-dot"></span>Dedicated temple donation accounts</li>
+          <li><span class="bullet-dot"></span>80G tax benefit receipts instantly</li>
+          <li><span class="bullet-dot"></span>Impact reports: meals, renovations, events</li>
+          <li><span class="bullet-dot"></span>Recurring donations & festival pledges</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+          <rect width="400" height="300" fill="#FDF6EC"/>
+          <rect x="24" y="24" width="352" height="252" rx="12" fill="white" stroke="#E8D5B7"/>
+          <text x="40" y="56" fill="#1A0F00" font-size="15" font-family="Playfair Display, serif" font-weight="700">Impact Dashboard</text>
+          <!-- Amount raised -->
+          <rect x="40" y="68" width="152" height="80" rx="10" fill="rgba(200,81,27,0.05)" stroke="#E8D5B7"/>
+          <text x="56" y="90" fill="#7A6652" font-size="11" font-family="DM Sans">Total Donated</text>
+          <text x="56" y="118" fill="#C8511B" font-size="26" font-family="Playfair Display, serif" font-weight="700">₹2,840</text>
+          <text x="56" y="136" fill="#2D7A4F" font-size="11" font-family="DM Sans">↑ 12% this month</text>
+          <!-- Breakdown donut placeholder -->
+          <rect x="208" y="68" width="168" height="80" rx="10" fill="rgba(212,160,23,0.05)" stroke="#E8D5B7"/>
+          <text x="224" y="90" fill="#7A6652" font-size="11" font-family="DM Sans">Breakdown</text>
+          <circle cx="272" cy="118" r="24" stroke="#C8511B" stroke-width="8" fill="none" stroke-dasharray="75 100" stroke-dashoffset="-25"/>
+          <circle cx="272" cy="118" r="24" stroke="#D4A017" stroke-width="8" fill="none" stroke-dasharray="25 100" stroke-dashoffset="-100"/>
+          <text x="356" y="108" fill="#7A6652" font-size="9" font-family="DM Sans">Food: 75%</text>
+          <text x="356" y="122" fill="#7A6652" font-size="9" font-family="DM Sans">Infra: 25%</text>
+          <!-- Impact items -->
+          <rect x="40" y="164" width="320" height="44" rx="8" fill="rgba(45,122,79,0.05)" stroke="rgba(45,122,79,0.2)"/>
+          <text x="56" y="183" fill="#2D7A4F" font-size="12" font-family="DM Sans" font-weight="600">🍛 1,420 meals served to pilgrims this month</text>
+          <text x="56" y="199" fill="#7A6652" font-size="10" font-family="DM Sans">Anna Daan Fund · Tirupati</text>
+          <rect x="40" y="216" width="320" height="44" rx="8" fill="rgba(200,81,27,0.04)" stroke="#E8D5B7"/>
+          <text x="56" y="235" fill="#1A0F00" font-size="12" font-family="DM Sans" font-weight="600">🏗️ Renovation of East Gopuram underway</text>
+          <text x="56" y="251" fill="#7A6652" font-size="10" font-family="DM Sans">Temple Development Fund</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ============================================================
+     HOW IT WORKS
+============================================================ -->
+<section class="how-section" id="how-it-works">
+  <div class="container">
+    <div class="how-header">
+      <div class="section-label">Simple as a prayer</div>
+      <h2 class="section-title">How PilgrimOS works</h2>
+      <p class="section-sub">Three steps between you and a perfectly planned darshan.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card fade-up" style="position:relative;">
+        <div class="step-num">01</div>
+        <div class="step-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="10" r="5" stroke="#D4A017" stroke-width="1.5" fill="rgba(212,160,23,0.1)"/>
+            <path d="M4 22C4 17.6 8.1 14 13 14C17.9 14 22 17.6 22 22" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <h3 class="step-title">Find Your Shrine</h3>
+        <p class="step-desc">Search by name, city, deity, or pilgrimage circuit. Browse live crowd levels, reviews, and available experiences at 2,400+ temples.</p>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-num">02</div>
+        <div class="step-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="3" y="6" width="20" height="16" rx="3" stroke="#D4A017" stroke-width="1.5" fill="rgba(212,160,23,0.1)"/>
+            <path d="M8 3v6M18 3v6M3 12h20" stroke="#D4A017" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M8 17h4" stroke="#D4A017" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="step-title">Book Your Experience</h3>
+        <p class="step-desc">Select your darshan slot, aarti seat, puja package, or donation cause. Pay securely via UPI, card, or net banking. Done in under 2 minutes.</p>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-num">03</div>
+        <div class="step-icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <path d="M13 3L16 9H22L17 13L19 19L13 15.5L7 19L9 13L4 9H10L13 3Z" stroke="#D4A017" stroke-width="1.5" fill="rgba(212,160,23,0.1)"/>
+          </svg>
+        </div>
+        <h3 class="step-title">Walk In, Worship In Peace</h3>
+        <p class="step-desc">Show your QR code at the gate, receive digital prasad receipts, and immerse in your sacred experience — no stress, no queues, just devotion.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA BANNER
+============================================================ -->
+<section class="cta-banner">
+  <div class="container">
+    <p class="sanskrit" style="font-size:18px; color:rgba(255,255,255,0.6); margin-bottom:8px;">ॐ सर्वे भवन्तु सुखिनः</p>
+    <h2 class="cta-banner-title">Your Yatra awaits.<br/>Begin it right.</h2>
+    <p class="cta-banner-sub">Join millions of pilgrims who have discovered the seamless way to experience India's sacred spaces.</p>
+    <div class="cta-banner-actions">
+      <a href="explore.html" class="btn-white" id="cta-explore">Explore Shrines →</a>
+      <a href="#" class="btn-ghost-white" onclick="return false;" id="cta-temple-trust">For Temple Trusts</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <a href="index.html" class="nav-logo">
+            <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.06)"/>
+              <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+              <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+              <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+              <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+              <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+            </svg>
+            <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:white;">Pilgrim<span style="color:#C8511B;">OS</span></span>
+          </a>
+        </div>
+        <p class="footer-tagline">Built for Bharat's greatest journey. Empowering pilgrims and temple trusts across India with world-class digital infrastructure.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" aria-label="Twitter" onclick="return false;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5L9.5 6.5L13.5 12H10.5L8 9L5 12H2L5.5 8L1.5 2.5H4.5L7 5.5L10 2.5H13Z" fill="rgba(255,255,255,0.6)"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Instagram" onclick="return false;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="4" stroke="rgba(255,255,255,0.6)" stroke-width="1.4" fill="none"/><circle cx="8" cy="8" r="3" stroke="rgba(255,255,255,0.6)" stroke-width="1.3" fill="none"/><circle cx="11.5" cy="4.5" r="0.8" fill="rgba(255,255,255,0.6)"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="LinkedIn" onclick="return false;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" stroke="rgba(255,255,255,0.6)" stroke-width="1.3" fill="none"/><path d="M4 6.5v5M4 4.5v.5M7 11.5V9c0-1.4.8-2 2-2s2 .6 2 2v2.5M7 6.5v5" stroke="rgba(255,255,255,0.6)" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Platform</p>
+        <ul class="footer-links">
+          <li><a href="explore.html">Explore Shrines</a></li>
+          <li><a href="#" onclick="return false;">Book Darshan</a></li>
+          <li><a href="#" onclick="return false;">Puja & Aarti</a></li>
+          <li><a href="#" onclick="return false;">Donate</a></li>
+          <li><a href="#" onclick="return false;">Pilgrimage Circuits</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">For Temples</p>
+        <ul class="footer-links">
+          <li><a href="#" onclick="return false;">Temple Dashboard</a></li>
+          <li><a href="#" onclick="return false;">Crowd Management</a></li>
+          <li><a href="#" onclick="return false;">Donation Ledger</a></li>
+          <li><a href="#" onclick="return false;">Analytics</a></li>
+          <li><a href="#" onclick="return false;">Partner With Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-links">
+          <li><a href="#" onclick="return false;">About Us</a></li>
+          <li><a href="#" onclick="return false;">Blog</a></li>
+          <li><a href="#" onclick="return false;">Careers</a></li>
+          <li><a href="#" onclick="return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="return false;">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="gold-divider"></div>
+    <div class="footer-bottom" style="margin-top:24px;">
+      <p class="footer-copy">© 2026 PilgrimOS Technologies Pvt. Ltd. All rights reserved.</p>
+      <p class="footer-made">Made with 🙏 in Bangalore</p>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
