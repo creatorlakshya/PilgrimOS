@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Darshana Premium — Upgrade Your Yatra | PilgrimOS</title>
+  <meta name="description" content="Unlock priority darshan bookings, personalised pilgrimage planner, real-time festival alerts, and multi-temple benefits with Darshana Premium at ₹1,999/year." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles-extra.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>🛕</text></svg>" />
+  <style>
+    /* ============================================================
+       SUBSCRIPTION PAGE STYLES
+    ============================================================ */
+
+    /* Hero */
+    .sub-hero {
+      background: linear-gradient(135deg, #1A0F00 0%, #2A1500 40%, #1A0F00 100%);
+      padding: 120px 0 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .sub-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(212,160,23,0.12) 0%, transparent 60%);
+    }
+    .sub-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(212,160,23,0.12);
+      border: 1px solid rgba(212,160,23,0.3);
+      border-radius: 30px;
+      padding: 6px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #D4A017;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 2;
+    }
+    .sub-hero-badge .pulse-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #D4A017;
+      animation: pulse-dot 2s infinite;
+    }
+    .sub-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 56px;
+      font-weight: 800;
+      color: #FDF6EC;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 2;
+    }
+    .sub-hero h1 .gold-text {
+      background: linear-gradient(135deg, #D4A017 0%, #F0C040 50%, #D4A017 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .sub-hero p {
+      font-size: 18px;
+      color: rgba(253,246,236,0.55);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.7;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Decorative mandala ring behind hero */
+    .sub-hero .mandala-bg-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      border: 1px solid rgba(212,160,23,0.06);
+      pointer-events: none;
+    }
+    .sub-hero .mandala-bg-ring::before {
+      content: '';
+      position: absolute;
+      inset: 60px;
+      border-radius: 50%;
+      border: 1px solid rgba(212,160,23,0.04);
+    }
+    .sub-hero .mandala-bg-ring::after {
+      content: '';
+      position: absolute;
+      inset: 120px;
+      border-radius: 50%;
+      border: 1px dashed rgba(212,160,23,0.04);
+    }
+
+    /* Stats Bar */
+    .sub-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-top: 48px;
+      position: relative;
+      z-index: 2;
+    }
+    .sub-stat-item {
+      text-align: center;
+    }
+    .sub-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #D4A017;
+    }
+    .sub-stat-label {
+      font-size: 12px;
+      color: rgba(253,246,236,0.4);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* ---- PRICING CARDS SECTION ---- */
+    .pricing-section {
+      padding: 80px 0 60px;
+      background: var(--parchment);
+    }
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .pricing-toggle {
+      display: inline-flex;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 30px;
+      padding: 4px;
+      margin-top: 20px;
+    }
+    .toggle-btn {
+      padding: 10px 28px;
+      border: none;
+      background: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      border-radius: 26px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .toggle-btn.active {
+      background: var(--saffron);
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(200,81,27,0.25);
+    }
+
+    /* Cards Grid */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    .plan-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      padding: 44px 36px;
+      position: relative;
+      transition: all 0.3s;
+    }
+    .plan-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(200,81,27,0.08);
+    }
+
+    .plan-card.premium {
+      border-color: rgba(212,160,23,0.5);
+      background: linear-gradient(180deg, rgba(212,160,23,0.04) 0%, var(--white) 40%);
+      box-shadow: 0 12px 40px rgba(212,160,23,0.12);
+    }
+    .plan-card.premium:hover {
+      box-shadow: 0 24px 70px rgba(212,160,23,0.18);
+    }
+
+    .plan-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #D4A017 0%, #F0C040 100%);
+      color: #1A0F00;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      padding: 6px 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(212,160,23,0.3);
+      white-space: nowrap;
+    }
+
+    .plan-tier-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+    .plan-card:not(.premium) .plan-tier-label { color: var(--muted); }
+    .plan-card.premium .plan-tier-label { color: #D4A017; }
+
+    .plan-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .plan-price {
+      margin-bottom: 6px;
+    }
+    .plan-price .amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 44px;
+      font-weight: 800;
+      color: var(--dark);
+    }
+    .plan-card.premium .plan-price .amount {
+      background: linear-gradient(135deg, #C8511B 0%, #D4A017 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .plan-price .period {
+      font-size: 16px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .plan-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* Feature List */
+    .plan-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .plan-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--dark);
+      line-height: 1.5;
+    }
+    .plan-features li .feat-icon {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      margin-top: 1px;
+    }
+    .plan-card:not(.premium) .feat-icon {
+      background: rgba(45,122,79,0.1);
+      color: #2D7A4F;
+    }
+    .plan-card.premium .feat-icon {
+      background: rgba(212,160,23,0.15);
+      color: #D4A017;
+    }
+
+    .plan-cta-btn {
+      display: block;
+      width: 100%;
+      padding: 16px 0;
+      text-align: center;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      border: none;
+    }
+    .plan-cta-free {
+      background: var(--parchment);
+      border: 1.5px solid var(--border);
+      color: var(--dark);
+    }
+    .plan-cta-free:hover {
+      border-color: var(--saffron);
+      color: var(--saffron);
+    }
+    .plan-cta-premium {
+      background: linear-gradient(135deg, #C8511B 0%, #A03D12 100%);
+      color: var(--white);
+      box-shadow: 0 6px 20px rgba(200,81,27,0.3);
+    }
+    .plan-cta-premium:hover {
+      box-shadow: 0 8px 30px rgba(200,81,27,0.4);
+      transform: translateY(-2px);
+    }
+
+    .plan-note {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    /* ---- COMPARISON TABLE ---- */
+    .compare-section {
+      padding: 60px 0 80px;
+      background: var(--white);
+    }
+    .compare-table {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .compare-table thead th {
+      padding: 20px 24px;
+      text-align: left;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      border-bottom: 2px solid var(--border);
+    }
+    .compare-table thead th:nth-child(2),
+    .compare-table thead th:nth-child(3) {
+      text-align: center;
+      width: 160px;
+    }
+    .compare-table thead th:nth-child(3) {
+      color: #D4A017;
+    }
+    .compare-table tbody td {
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(200,81,27,0.06);
+      color: var(--dark);
+    }
+    .compare-table tbody td:nth-child(2),
+    .compare-table tbody td:nth-child(3) {
+      text-align: center;
+    }
+    .compare-table tbody tr:hover {
+      background: rgba(200,81,27,0.02);
+    }
+    .compare-table .check-yes {
+      color: #2D7A4F;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .compare-table .check-premium {
+      color: #D4A017;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .compare-table .check-no {
+      color: rgba(120,96,72,0.3);
+      font-size: 16px;
+    }
+    .compare-table .feat-label {
+      font-weight: 600;
+    }
+    .compare-table .feat-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Highlight Premium column */
+    .compare-table thead th:nth-child(3) {
+      background: rgba(212,160,23,0.06);
+      border-radius: 12px 12px 0 0;
+    }
+    .compare-table tbody td:nth-child(3) {
+      background: rgba(212,160,23,0.03);
+    }
+    .compare-table tbody tr:last-child td:nth-child(3) {
+      border-radius: 0 0 12px 12px;
+    }
+
+    /* ---- BENEFITS / PERKS SECTION ---- */
+    .perks-section {
+      padding: 80px 0;
+      background: var(--parchment);
+    }
+    .perks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 48px;
+    }
+    .perk-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      transition: all 0.3s;
+    }
+    .perk-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(200,81,27,0.07);
+      border-color: rgba(212,160,23,0.3);
+    }
+    .perk-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .perk-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .perk-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ---- TESTIMONIALS ---- */
+    .testimonials-section {
+      padding: 80px 0;
+      background: var(--white);
+    }
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .test-card {
+      background: var(--parchment);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+    }
+    .test-stars {
+      color: #D4A017;
+      font-size: 14px;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .test-quote {
+      font-size: 14px;
+      color: var(--dark);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .test-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .test-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .test-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--dark);
+    }
+    .test-loc {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ---- FAQ SECTION ---- */
+    .faq-section {
+      padding: 80px 0;
+      background: var(--parchment);
+    }
+    .faq-grid {
+      max-width: 720px;
+      margin: 48px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .faq-item {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .faq-item:hover { border-color: rgba(200,81,27,0.2); }
+    .faq-question {
+      padding: 20px 24px;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--dark);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .faq-toggle {
+      font-size: 20px;
+      color: var(--muted);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      background: var(--parchment);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); color: var(--saffron); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.3s ease;
+      padding: 0 24px;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding: 0 24px 20px;
+    }
+    .faq-answer p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ---- FINAL CTA ---- */
+    .sub-final-cta {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #1A0F00 0%, #2A1500 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .sub-final-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(212,160,23,0.08) 0%, transparent 60%);
+    }
+
+    /* ---- CHECKOUT MODAL ---- */
+    .checkout-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(13,9,6,0.75);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .checkout-overlay.active { display: flex; }
+
+    .checkout-modal {
+      background: var(--white);
+      border-radius: 24px;
+      width: min(520px, 92vw);
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+      position: relative;
+      animation: modalSlideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes modalSlideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: var(--parchment);
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      transition: all 0.2s;
+      z-index: 2;
+    }
+    .modal-close:hover { background: var(--border); color: var(--dark); }
+
+    .modal-header {
+      padding: 36px 36px 0;
+      text-align: center;
+    }
+    .modal-header .premium-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, rgba(212,160,23,0.15) 0%, rgba(200,81,27,0.1) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .modal-body {
+      padding: 28px 36px 36px;
+    }
+
+    .checkout-form-group {
+      margin-bottom: 20px;
+    }
+    .checkout-form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .checkout-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--dark);
+      background: var(--white);
+      transition: border-color 0.2s;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .checkout-input:focus { border-color: var(--saffron); }
+
+    .checkout-summary {
+      background: var(--parchment);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+    .checkout-summary .summary-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: var(--muted);
+    }
+    .checkout-summary .summary-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      border-top: 1px dashed var(--border);
+      padding-top: 14px;
+      margin-top: 12px;
+    }
+
+    .checkout-pay-btn {
+      width: 100%;
+      padding: 16px 0;
+      background: linear-gradient(135deg, #C8511B 0%, #A03D12 100%);
+      color: var(--white);
+      border: none;
+      border-radius: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 6px 20px rgba(200,81,27,0.3);
+    }
+    .checkout-pay-btn:hover {
+      box-shadow: 0 8px 30px rgba(200,81,27,0.4);
+      transform: translateY(-1px);
+    }
+
+    .checkout-secure {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sub-hero h1 { font-size: 36px; }
+      .sub-stats { flex-wrap: wrap; gap: 24px; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 440px; }
+      .perks-grid { grid-template-columns: 1fr; }
+      .test-grid { grid-template-columns: 1fr; }
+      .compare-table { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero-gradient-bar"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#FDF6EC"/>
+        <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+        <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+        <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+        <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+        <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+      </svg>
+      <span class="nav-logo-text">Darshana</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="explore.html">Explore Shrines</a></li>
+      <li><a href="shrine.html">Kashi Vishwanath</a></li>
+      <li><a href="subscription.html" class="active" style="color: #D4A017;">Premium ✦</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="explore.html" class="btn btn-ghost btn-sm">Explore Shrines</a>
+      <a href="#pricing" class="btn btn-primary btn-sm">Upgrade Now →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="sub-hero">
+  <div class="mandala-bg-ring"></div>
+  <div class="container" style="position: relative; z-index: 2;">
+    <div class="sub-hero-badge">
+      <span class="pulse-dot"></span>
+      Goal: 3,000 Subscribers · 0.625% CVR
+    </div>
+    <h1>Upgrade to<br/><span class="gold-text">Darshana Premium</span></h1>
+    <p>Priority darshan windows, personalised yatra planner, real-time festival alerts, digital spiritual records, and multi-temple benefits — all for ₹1,999/year.</p>
+
+    <div class="sub-stats">
+      <div class="sub-stat-item">
+        <div class="sub-stat-num">2,400+</div>
+        <div class="sub-stat-label">Temples</div>
+      </div>
+      <div class="sub-stat-item">
+        <div class="sub-stat-num">48hr</div>
+        <div class="sub-stat-label">Early Booking</div>
+      </div>
+      <div class="sub-stat-item">
+        <div class="sub-stat-num">12</div>
+        <div class="sub-stat-label">Languages</div>
+      </div>
+      <div class="sub-stat-item">
+        <div class="sub-stat-num">100%</div>
+        <div class="sub-stat-label">Refundable</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING CARDS
+============================================================ -->
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    <div class="pricing-header">
+      <div class="section-label">Simple, Transparent Pricing</div>
+      <h2 class="section-title">Choose Your Yatra Plan</h2>
+      <div class="pricing-toggle">
+        <button class="toggle-btn active" id="toggle-yearly" onclick="switchPlan('yearly')">Yearly (Save 33%)</button>
+        <button class="toggle-btn" id="toggle-monthly" onclick="switchPlan('monthly')">Monthly</button>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- FREE TIER -->
+      <div class="plan-card">
+        <div class="plan-tier-label">Free Tier</div>
+        <div class="plan-name">Shraddha</div>
+        <div class="plan-price">
+          <span class="amount">₹0</span>
+          <span class="period">/ forever</span>
+        </div>
+        <p class="plan-desc">Essential access to India's sacred shrines with basic booking and temple information.</p>
+
+        <ul class="plan-features">
+          <li>
+            <span class="feat-icon">✓</span>
+            <span>Darshan booking (standard window)</span>
+          </li>
+          <li>
+            <span class="feat-icon">✓</span>
+            <span>Puja booking across all temples</span>
+          </li>
+          <li>
+            <span class="feat-icon">✓</span>
+            <span>Basic temple information & timings</span>
+          </li>
+          <li>
+            <span class="feat-icon">✓</span>
+            <span>WhatsApp notifications</span>
+          </li>
+          <li>
+            <span class="feat-icon">✓</span>
+            <span>Digital QR passes for darshan</span>
+          </li>
+          <li>
+            <span class="feat-icon">✓</span>
+            <span>Donation tracking & 80G receipts</span>
+          </li>
+        </ul>
+
+        <a href="explore.html" class="plan-cta-btn plan-cta-free">Continue with Free</a>
+      </div>
+
+      <!-- PREMIUM TIER -->
+      <div class="plan-card premium">
+        <div class="plan-badge">✦ Most Popular</div>
+        <div class="plan-tier-label">Premium</div>
+        <div class="plan-name">Moksha</div>
+        <div class="plan-price">
+          <span class="amount" id="premium-price">₹1,999</span>
+          <span class="period" id="premium-period">/ year</span>
+        </div>
+        <p class="plan-desc">Unlock the complete spiritual journey with priority access and exclusive experiences.</p>
+
+        <ul class="plan-features">
+          <li>
+            <span class="feat-icon">⚡</span>
+            <span><strong>Priority 48-hour early booking window</strong></span>
+          </li>
+          <li>
+            <span class="feat-icon">🧭</span>
+            <span><strong>Personalised pilgrimage planner</strong></span>
+          </li>
+          <li>
+            <span class="feat-icon">🔔</span>
+            <span>Real-time festival & crowd surge alerts</span>
+          </li>
+          <li>
+            <span class="feat-icon">📿</span>
+            <span>Digital spiritual records & donation history</span>
+          </li>
+          <li>
+            <span class="feat-icon">🏛️</span>
+            <span>Multi-temple cross-network benefits</span>
+          </li>
+          <li>
+            <span class="feat-icon">🎟️</span>
+            <span>VIP queue bypass at partner temples</span>
+          </li>
+          <li>
+            <span class="feat-icon">📞</span>
+            <span>Dedicated yatra concierge (phone & chat)</span>
+          </li>
+          <li>
+            <span class="feat-icon">🕉️</span>
+            <span>Monthly curated puja recommendations</span>
+          </li>
+        </ul>
+
+        <button class="plan-cta-btn plan-cta-premium" onclick="openCheckoutModal()">
+          Upgrade to Premium →
+        </button>
+        <div class="plan-note">No auto-renewal · Cancel anytime · 7-day money-back guarantee</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPARISON TABLE
+============================================================ -->
+<section class="compare-section">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <div class="section-label">Feature Comparison</div>
+      <h2 class="section-title">Free vs Premium — Side by Side</h2>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Free</th>
+          <th>Premium ✦</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="feat-label">Darshan Booking</div>
+            <div class="feat-sub">Reserve your slot in advance</div>
+          </td>
+          <td><span class="check-yes">✓</span><br/><span style="font-size:11px;color:var(--muted);">Standard slots</span></td>
+          <td><span class="check-premium">✓</span><br/><span style="font-size:11px;color:#D4A017;">48hr early access</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="feat-label">Puja & Aarti Booking</div>
+            <div class="feat-sub">Schedule sacred rituals online</div>
+          </td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-premium">✓</span><br/><span style="font-size:11px;color:#D4A017;">Priority pandit</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="feat-label">Temple Information</div>
+            <div class="feat-sub">Timings, photos, directions</div>
+          </td>
+          <td><span class="check-yes">✓</span><br/><span style="font-size:11px;color:var(--muted);">Basic info</span></td>
+          <td><span class="check-premium">✓</span><br/><span style="font-size:11px;color:#D4A017;">Deep editorial + history</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="feat-label">Crowd Tracking</div>
+            <div class="feat-sub">Live heatmaps & wait times</div>
+          </td>
+          <td><span class="check-yes">✓</span><br/><span style="font-size:11px;color:var(--muted);">Basic levels</span></td>
+          <td><span class="check-premium">✓</span><br/><span style="font-size:11px;color:#D4A017;">Zone-level heatmaps</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="feat-label">WhatsApp Notifications</div>
+            <div class="feat-sub">Booking confirmations & alerts</div>
+          </td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-premium">✓</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="feat-label">Pilgrimage Planner</div>
+            <div class="feat-sub">AI-powered multi-day itinerary</div>
+          </td>
+          <td><span class="check-no">✕</span></td>
+          <td><span class="check-premium">✓</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="feat-label">Festival & Surge Alerts</div>
+            <div class="feat-sub">Advance warnings for rush days</div>
+          </td>
+          <td><span class="check-no">✕</span></td>
+          <td><span class="check-premium">✓</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="feat-label">VIP Queue Bypass</div>
+            <div class="feat-sub">Skip lines at partner temples</div>
+          </td>
+          <td><span class="check-no">✕</span></td>
+          <td><span class="check-premium">✓</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="feat-label">Digital Spiritual Records</div>
+            <div class="feat-sub">Full puja, darshan, and donation history</div>
+          </td>
+          <td><span class="check-no">✕</span></td>
+          <td><span class="check-premium">✓</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="feat-label">Yatra Concierge</div>
+            <div class="feat-sub">Dedicated support via phone & chat</div>
+          </td>
+          <td><span class="check-no">✕</span></td>
+          <td><span class="check-premium">✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     PREMIUM PERKS
+============================================================ -->
+<section class="perks-section">
+  <div class="container">
+    <div style="text-align: center;">
+      <div class="section-label">Premium Benefits</div>
+      <h2 class="section-title">What makes Premium special</h2>
+    </div>
+
+    <div class="perks-grid">
+      <div class="perk-card fade-up">
+        <div class="perk-icon" style="background: rgba(200,81,27,0.08);">⚡</div>
+        <div class="perk-title">48-Hour Head Start</div>
+        <div class="perk-desc">Get access to new darshan slots 48 hours before they open to the public. Never miss a high-demand festival slot again.</div>
+      </div>
+      <div class="perk-card fade-up">
+        <div class="perk-icon" style="background: rgba(212,160,23,0.1);">🧭</div>
+        <div class="perk-title">Smart Planner</div>
+        <div class="perk-desc">AI-powered itinerary builder that optimises your multi-shrine yatra for time, distance, crowd levels, and festival calendars.</div>
+      </div>
+      <div class="perk-card fade-up">
+        <div class="perk-icon" style="background: rgba(45,122,79,0.08);">🔔</div>
+        <div class="perk-title">Surge Alerts</div>
+        <div class="perk-desc">Get notified before crowd surges. We analyse festival data, weather, and booking patterns to warn you hours in advance.</div>
+      </div>
+      <div class="perk-card fade-up">
+        <div class="perk-icon" style="background: rgba(200,81,27,0.08);">📿</div>
+        <div class="perk-title">Spiritual Records</div>
+        <div class="perk-desc">Your complete digital spiritual journal — every darshan, every puja, every donation tracked and beautifully organised.</div>
+      </div>
+      <div class="perk-card fade-up">
+        <div class="perk-icon" style="background: rgba(212,160,23,0.1);">🏛️</div>
+        <div class="perk-title">Cross-Temple Benefits</div>
+        <div class="perk-desc">Premium membership works across all 2,400+ temples on the platform. One subscription, pan-India coverage.</div>
+      </div>
+      <div class="perk-card fade-up">
+        <div class="perk-icon" style="background: rgba(45,122,79,0.08);">📞</div>
+        <div class="perk-title">Concierge Support</div>
+        <div class="perk-desc">Dedicated human support via phone, WhatsApp, and chat. Get help with bookings, travel planning, and special requests.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+============================================================ -->
+<section class="testimonials-section">
+  <div class="container">
+    <div style="text-align: center;">
+      <div class="section-label">Pilgrim Testimonials</div>
+      <h2 class="section-title">What Premium members say</h2>
+    </div>
+
+    <div class="test-grid">
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"The 48-hour early booking saved our Char Dham trip. We got Kedarnath slots during peak Sawan when everyone else was waitlisted. Worth every rupee."</div>
+        <div class="test-author">
+          <div class="test-avatar" style="background: linear-gradient(135deg, #C8511B, #D4A017);">RS</div>
+          <div>
+            <div class="test-name">Raghav Singhania</div>
+            <div class="test-loc">Mumbai · Premium since Jan 2026</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"My mother wanted to do 12 Jyotirlinga darshan. The planner built a perfect 21-day itinerary optimised for her mobility needs. We completed it seamlessly."</div>
+        <div class="test-author">
+          <div class="test-avatar" style="background: linear-gradient(135deg, #2D7A4F, #D4A017);">AM</div>
+          <div>
+            <div class="test-name">Ananya Mukherjee</div>
+            <div class="test-loc">Kolkata · Premium since Mar 2026</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card fade-up">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"The concierge helped me arrange a special birthday puja at Tirupati for my parents. Everything was coordinated perfectly. They were overwhelmed with joy."</div>
+        <div class="test-author">
+          <div class="test-avatar" style="background: linear-gradient(135deg, #D4A017, #C8511B);">VK</div>
+          <div>
+            <div class="test-name">Vikram Kulkarni</div>
+            <div class="test-loc">Pune · Premium since Feb 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+============================================================ -->
+<section class="faq-section">
+  <div class="container">
+    <div style="text-align: center;">
+      <div class="section-label">Common Questions</div>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-grid" id="faq-grid">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>How does the 48-hour early booking work?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>When new darshan slots or aarti seats are released by temple trusts, Premium members get exclusive access 48 hours before they open to the public. This is especially valuable during festivals like Sawan, Navratri, and Kumbh when slots fill within minutes.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>Can I share my Premium with family members?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>Each Premium subscription covers one account, but you can book darshan, puja, and aarti for up to 10 family members per booking using your Priority access window. Family plan coming soon!</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>Is there a refund policy?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>Yes. We offer a full 7-day money-back guarantee. If Premium doesn't meet your expectations within the first week, email us for a complete refund — no questions asked.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>Does Premium auto-renew?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>No. We believe in conscious choices. Your subscription is a one-time payment for the chosen period. We'll send you a reminder 30 days before expiry so you can renew if you wish.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>Which temples support VIP queue bypass?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>Currently, 340+ partner temples support Premium VIP bypass, including Kashi Vishwanath, Tirupati, Vaishno Devi, Somnath, and Mahakaleshwar. The list grows monthly as more trusts join our network.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FINAL CTA
+============================================================ -->
+<section class="sub-final-cta">
+  <div class="container" style="position: relative; z-index: 2;">
+    <p style="font-size:18px; color:rgba(253,246,236,0.5); margin-bottom:8px; font-family: 'Tiro Devanagari Sanskrit', serif;">ॐ सर्वे भवन्तु सुखिनः</p>
+    <h2 style="font-family:'Playfair Display',serif; font-size: 40px; font-weight: 800; color: #FDF6EC; margin-bottom: 16px; line-height: 1.2;">
+      Your sacred journey<br/>deserves <span style="color: #D4A017;">premium care.</span>
+    </h2>
+    <p style="font-size: 16px; color: rgba(253,246,236,0.5); max-width: 440px; margin: 0 auto 32px; line-height: 1.6;">
+      Join thousands of devoted pilgrims who upgraded their yatra experience with Darshana Premium.
+    </p>
+    <button onclick="openCheckoutModal()" class="plan-cta-btn plan-cta-premium" style="display: inline-block; width: auto; padding: 16px 48px; font-size: 16px;">
+      Upgrade to Premium — ₹1,999/year →
+    </button>
+    <div style="font-size: 12px; color: rgba(253,246,236,0.3); margin-top: 16px;">7-day money-back guarantee · No auto-renewal · Cancel anytime</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <a href="index.html" class="nav-logo">
+            <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.06)"/>
+              <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+              <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+              <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+              <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+              <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+            </svg>
+            <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:white;">Darshana</span>
+          </a>
+        </div>
+        <p class="footer-tagline">Built for Bharat's greatest journey. Empowering pilgrims and temple trusts across India with world-class digital infrastructure.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Platform</p>
+        <ul class="footer-links">
+          <li><a href="explore.html">Explore Shrines</a></li>
+          <li><a href="booking-darshan.html">Book Darshan</a></li>
+          <li><a href="booking-aarti.html">Puja & Aarti</a></li>
+          <li><a href="donate.html">Donate</a></li>
+          <li><a href="subscription.html">Premium ✦</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">For Temples</p>
+        <ul class="footer-links">
+          <li><a href="#" onclick="return false;">Temple Dashboard</a></li>
+          <li><a href="crowd.html">Crowd Management</a></li>
+          <li><a href="#" onclick="return false;">Donation Ledger</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-links">
+          <li><a href="#" onclick="return false;">About Us</a></li>
+          <li><a href="#" onclick="return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="return false;">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="gold-divider"></div>
+    <div class="footer-bottom" style="margin-top:24px;">
+      <p class="footer-copy">© 2026 Darshana Technologies Pvt. Ltd. All rights reserved.</p>
+      <p class="footer-made">Made with 🙏 in Bangalore</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     CHECKOUT MODAL
+============================================================ -->
+<div class="checkout-overlay" id="checkout-overlay">
+  <div class="checkout-modal">
+    <button class="modal-close" onclick="closeCheckoutModal()">✕</button>
+
+    <div class="modal-header">
+      <div class="premium-icon">✦</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 4px;">Upgrade to Darshana Premium</h2>
+      <p style="font-size: 14px; color: var(--muted);">Complete your subscription in 30 seconds</p>
+    </div>
+
+    <div class="modal-body">
+      <form id="checkout-form" onsubmit="processSubscription(event)">
+        <div class="checkout-form-group">
+          <label>Full Name</label>
+          <input type="text" class="checkout-input" id="sub-name" placeholder="Enter your full name" required />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="checkout-form-group">
+            <label>Email Address</label>
+            <input type="email" class="checkout-input" id="sub-email" placeholder="you@email.com" required />
+          </div>
+          <div class="checkout-form-group">
+            <label>Phone Number</label>
+            <input type="tel" class="checkout-input" id="sub-phone" placeholder="+91 98765 43210" required />
+          </div>
+        </div>
+
+        <div class="checkout-form-group">
+          <label>Preferred City</label>
+          <select class="checkout-input" id="sub-city">
+            <option>Varanasi</option>
+            <option>Mumbai</option>
+            <option>Delhi</option>
+            <option>Bangalore</option>
+            <option>Chennai</option>
+            <option>Kolkata</option>
+            <option>Hyderabad</option>
+            <option>Pune</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="checkout-form-group">
+          <label>Payment Method</label>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <button type="button" class="pay-btn selected" onclick="selectSubPayment(this, 'upi')">📱 UPI</button>
+            <button type="button" class="pay-btn" onclick="selectSubPayment(this, 'card')">💳 Card</button>
+            <button type="button" class="pay-btn" onclick="selectSubPayment(this, 'netbanking')">🏦 Net Banking</button>
+          </div>
+        </div>
+
+        <div class="checkout-summary">
+          <div class="summary-line">
+            <span>Darshana Premium (Yearly)</span>
+            <span style="font-weight: 600; color: var(--dark);">₹1,999</span>
+          </div>
+          <div class="summary-line">
+            <span>GST (18%)</span>
+            <span style="font-weight: 600; color: var(--dark);">₹360</span>
+          </div>
+          <div class="summary-line" style="color: #2D7A4F; font-weight: 600;">
+            <span>Launch Discount (–20%)</span>
+            <span>−₹472</span>
+          </div>
+          <div class="summary-total">
+            <span>Total Payable</span>
+            <span style="color: var(--saffron);">₹1,887</span>
+          </div>
+        </div>
+
+        <button type="submit" class="checkout-pay-btn" id="sub-pay-btn">
+          🔐 Pay ₹1,887 & Activate Premium
+        </button>
+
+        <div class="checkout-secure">
+          <span>🔒</span>
+          256-bit SSL encrypted · PCI-DSS compliant · Razorpay Secure
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- CONFETTI CANVAS -->
+<canvas id="confetti-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:9999;"></canvas>
+
+<script src="app.js"></script>
+<script>
+/* ============================================================
+   SUBSCRIPTION PAGE INTERACTIVITY
+============================================================ */
+'use strict';
+
+// Plan Toggle
+function switchPlan(plan) {
+  const yearlyBtn = document.getElementById('toggle-yearly');
+  const monthlyBtn = document.getElementById('toggle-monthly');
+  const priceEl = document.getElementById('premium-price');
+  const periodEl = document.getElementById('premium-period');
+
+  if (plan === 'yearly') {
+    yearlyBtn.classList.add('active');
+    monthlyBtn.classList.remove('active');
+    priceEl.textContent = '₹1,999';
+    periodEl.textContent = '/ year';
+  } else {
+    yearlyBtn.classList.remove('active');
+    monthlyBtn.classList.add('active');
+    priceEl.textContent = '₹249';
+    periodEl.textContent = '/ month';
+  }
+}
+
+// FAQ Accordion
+function toggleFAQ(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+
+  // Close all
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+
+  // Toggle current
+  if (!isOpen) item.classList.add('open');
+}
+
+// Checkout Modal
+function openCheckoutModal() {
+  document.getElementById('checkout-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCheckoutModal() {
+  document.getElementById('checkout-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Close on overlay click
+document.getElementById('checkout-overlay')?.addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeCheckoutModal();
+});
+
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeCheckoutModal();
+});
+
+// Payment method selection
+function selectSubPayment(btn, method) {
+  btn.closest('div').querySelectorAll('.pay-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+// Process Subscription
+function processSubscription(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById('sub-pay-btn');
+  const name = document.getElementById('sub-name').value;
+  btn.textContent = '⏳ Processing payment...';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    // Replace modal content with success
+    const modal = document.querySelector('.checkout-modal');
+    modal.innerHTML = `
+      <div style="padding: 60px 40px; text-align: center;">
+        <div style="width:80px;height:80px;margin:0 auto 24px;background:rgba(45,122,79,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;animation:scaleUp 0.5s cubic-bezier(0.175,0.885,0.32,1.275);">🎉</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--dark);margin-bottom:8px;">Welcome to Premium!</h2>
+        <p style="font-size:15px;color:var(--muted);max-width:380px;margin:0 auto 24px;line-height:1.6;">
+          Congratulations, <strong style="color:var(--dark);">${name}</strong>! Your Darshana Premium membership is now active.
+        </p>
+        <div style="background:var(--parchment);border:1.5px solid var(--border);border-radius:14px;padding:24px;text-align:left;margin-bottom:28px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:14px;">
+            <div>
+              <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;">Member ID</div>
+              <strong style="color:var(--dark);">PRM-${Math.floor(100000 + Math.random() * 900000)}</strong>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;">Valid Until</div>
+              <strong style="color:var(--dark);">May 30, 2027</strong>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;">Plan</div>
+              <strong style="color:#D4A017;">Moksha Premium ✦</strong>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;">Amount Paid</div>
+              <strong style="color:var(--saffron);">₹1,887</strong>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:center;">
+          <a href="explore.html" class="btn btn-primary" style="padding:12px 28px;">Start Exploring →</a>
+          <button onclick="closeCheckoutModal()" class="btn btn-ghost" style="padding:12px 28px;">Close</button>
+        </div>
+      </div>
+    `;
+
+    // Confetti!
+    triggerConfetti();
+  }, 2000);
+}
+
+// Confetti (from app-extra.js pattern)
+function triggerConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  let particles = [];
+  const colors = ['#C8511B', '#D4A017', '#F0C040', '#E8693A', '#A03D12'];
+  for (let i = 0; i < 150; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      r: Math.random() * 6 + 4,
+      d: Math.random() * canvas.height,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      tilt: Math.random() * 10 - 5,
+      tiltInc: Math.random() * 0.07 + 0.02,
+      tiltAngle: 0
+    });
+  }
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p, i) => {
+      p.tiltAngle += p.tiltInc;
+      p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+      p.x += Math.sin(p.tiltAngle);
+      p.tilt = Math.sin(p.tiltAngle - i / 3) * 15;
+      ctx.beginPath();
+      ctx.lineWidth = p.r;
+      ctx.strokeStyle = p.color;
+      ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+      ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+      ctx.stroke();
+    });
+    particles = particles.filter(p => p.y < canvas.height);
+    if (particles.length > 0) requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// Scroll animation observer
+const fadeEls = document.querySelectorAll('.fade-up');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+fadeEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

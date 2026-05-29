@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Puja Booking Catalogue — Darshana</title>
+  <meta name="description" content="Schedule classical Vedic Pujas conducted by certified priests at Kashi Vishwanath. Customize Gotras and stream via remote Live Feed." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles-extra.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>🛕</text></svg>" />
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<div class="hero-gradient-bar"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#FDF6EC"/>
+        <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+        <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+        <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+        <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+        <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+      </svg>
+      <span class="nav-logo-text">Darshana</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="explore.html" class="active">Explore Shrines</a></li>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="subscription.html" style="color: #D4A017;">Premium ✦</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="shrine.html" class="btn btn-ghost btn-sm">Temple Profile</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     BREADCRUMBS & SECTION
+============================================================ -->
+<section class="section" style="padding: 40px 0 80px;">
+  <div class="container">
+    
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs" style="color: var(--muted); margin-bottom: 32px;">
+      <a href="index.html" style="color: var(--muted);">Home</a>
+      <span>&gt;</span>
+      <a href="explore.html" style="color: var(--muted);">Explore</a>
+      <span>&gt;</span>
+      <a href="shrine.html" style="color: var(--muted);">Kashi Vishwanath</a>
+      <span>&gt;</span>
+      <span style="color: var(--saffron); font-weight: 600;">Puja Catalogue</span>
+    </div>
+
+    <!-- SUCCESS WRAPPER -->
+    <div id="puja-flow-container">
+      
+      <!-- ============================================================
+           PUJA CATALOGUE GRID
+      ============================================================ -->
+      <div id="puja-catalog-view" style="display:block;">
+        <div style="text-align: center; margin-bottom: 48px;">
+          <div class="section-label" style="justify-content:center;">Vedic Rituals</div>
+          <h1 style="font-family:'Playfair Display',serif; font-size:36px; font-weight:700; color:var(--dark); margin-top:8px;">
+            Book a Puja Ceremony
+          </h1>
+          <p style="font-size:15px; color:var(--muted); margin-top:8px;">Schedule customized ancestral pujas and homam ceremonies led by verified shastris</p>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 28px; margin-bottom: 48px;">
+          
+          <!-- Puja Card 1 -->
+          <div class="tier-card" style="cursor:default;">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+              <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark);">Rudrabhishek</h3>
+              <span class="tier-badge-label" style="position:static; background:rgba(200,81,27,0.1); color:var(--saffron);">Popular</span>
+            </div>
+            <p style="font-size:12px; color:var(--muted); margin-top:4px;">⏱ 45 mins &nbsp;·&nbsp; Shiva Altar</p>
+            <p style="font-size:14px; color:var(--muted); margin:16px 0; line-height:1.6;">
+              "For health, mental clarity, and family prosperity." Vedic recitation of Sri Rudram while performing holy baths on the Shiva Lingam.
+            </p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
+              <span style="font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--dark);">₹1,100</span>
+              <button class="btn btn-primary btn-sm" onclick="selectPuja(1, 'Rudrabhishek', 1100)">Book Now</button>
+            </div>
+          </div>
+
+          <!-- Puja Card 2 -->
+          <div class="tier-card" style="cursor:default;">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+              <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark);">Sahasranama Archana</h3>
+              <span class="tier-badge-label" style="position:static; background:rgba(122,102,82,0.1); color:var(--muted);">Daily</span>
+            </div>
+            <p style="font-size:12px; color:var(--muted); margin-top:4px;">⏱ 30 mins &nbsp;·&nbsp; Vishnu / Shiva Altar</p>
+            <p style="font-size:14px; color:var(--muted); margin:16px 0; line-height:1.6;">
+              Recitation of 1,000 divine names of the deity with offerings of sacred kumkum, turmeric or Bilva leaves.
+            </p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
+              <span style="font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--dark);">₹551</span>
+              <button class="btn btn-primary btn-sm" onclick="selectPuja(2, 'Sahasranama Archana', 551)">Book Now</button>
+            </div>
+          </div>
+
+          <!-- Puja Card 3 -->
+          <div class="tier-card" style="cursor:default;">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+              <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark);">Laghu Rudra Puja</h3>
+              <span class="tier-badge-label" style="position:static; background:rgba(45,122,79,0.1); color:var(--success);">In Depth</span>
+            </div>
+            <p style="font-size:12px; color:var(--muted); margin-top:4px;">⏱ 2 hours &nbsp;·&nbsp; Inner Sanctuary</p>
+            <p style="font-size:14px; color:var(--muted); margin:16px 0; line-height:1.6;">
+              Elevated chantings of Sri Rudram 11 times. Clears deep ancestral karmas and grants professional success and relief from chronic illness.
+            </p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
+              <span style="font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--dark);">₹5,100</span>
+              <button class="btn btn-primary btn-sm" onclick="selectPuja(3, 'Laghu Rudra Puja', 5100)">Book Now</button>
+            </div>
+          </div>
+
+          <!-- Puja Card 4 -->
+          <div class="tier-card" style="cursor:default;">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+              <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark);">Maha Rudrabhishek</h3>
+              <span class="tier-badge-label" style="position:static; background:rgba(212,160,23,0.15); color:var(--gold);">Most Auspicious</span>
+            </div>
+            <p style="font-size:12px; color:var(--muted); margin-top:4px;">⏱ 3 hours &nbsp;·&nbsp; Main Temple Dome</p>
+            <p style="font-size:14px; color:var(--muted); margin:16px 0; line-height:1.6;">
+              "The ultimate Shiva offering." Complete recitations of Rudram 121 times by a council of 11 Vedic Pandits. Invokes immense protection.
+            </p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
+              <span style="font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--dark);">₹11,000</span>
+              <button class="btn btn-primary btn-sm" onclick="selectPuja(4, 'Maha Rudrabhishek', 11000)">Book Now</button>
+            </div>
+          </div>
+
+          <!-- Puja Card 5 -->
+          <div class="tier-card" style="cursor:default;">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+              <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark);">Satyanarayan Katha</h3>
+              <span class="tier-badge-label" style="position:static; background:rgba(122,102,82,0.1); color:var(--muted);">Family</span>
+            </div>
+            <p style="font-size:12px; color:var(--muted); margin-top:4px;">⏱ 1.5 hours &nbsp;·&nbsp; Satsang Hall</p>
+            <p style="font-size:14px; color:var(--muted); margin:16px 0; line-height:1.6;">
+              Devotional narration of Lord Satyanarayan's legends, purifying households and establishing truth, peace, and abundance.
+            </p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
+              <span style="font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--dark);">₹2,100</span>
+              <button class="btn btn-primary btn-sm" onclick="selectPuja(5, 'Satyanarayan Katha', 2100)">Book Now</button>
+            </div>
+          </div>
+
+          <!-- Puja Card 6 -->
+          <div class="tier-card" style="cursor:default;">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+              <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--dark);">Griha Pravesh Puja</h3>
+              <span class="tier-badge-label" style="position:static; background:rgba(45,122,79,0.1); color:var(--success);">Infra</span>
+            </div>
+            <p style="font-size:12px; color:var(--muted); margin-top:4px;">⏱ 2 hours &nbsp;·&nbsp; Temple Precinct</p>
+            <p style="font-size:14px; color:var(--muted); margin:16px 0; line-height:1.6;">
+              Housewarming blessing ritual conducted at the shrine on behalf of new homeowners, including Vastu shanti recitations.
+            </p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
+              <span style="font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--dark);">₹3,100</span>
+              <button class="btn btn-primary btn-sm" onclick="selectPuja(6, 'Griha Pravesh Puja', 3100)">Book Now</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ============================================================
+           PUJA CONFIGURATION / BOOKING FORM
+      ============================================================ -->
+      <div id="puja-booking-view" style="display:none; max-width:760px; margin:0 auto; background:var(--white); border:1.5px solid var(--border); border-radius:20px; padding:40px; box-shadow:var(--card-shadow);">
+        
+        <div class="step-header">
+          <h2 class="step-title" id="selected-puja-name-header">Configure Puja Booking</h2>
+          <p class="step-subtitle">Complete your sankalp details for altar recitation</p>
+        </div>
+
+        <form onsubmit="processPujaBooking(event)">
+          
+          <!-- Timing fields -->
+          <div class="form-row" style="grid-template-columns:1fr 1fr; margin-top:0; margin-bottom:24px;">
+            <div>
+              <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Select Date</label>
+              <input type="date" class="form-input" id="puja-date" required />
+            </div>
+            <div>
+              <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Preferred Time Slot</label>
+              <select class="form-input" id="puja-time-slot">
+                <option>6:00 AM - 7:00 AM</option>
+                <option>8:30 AM - 10:00 AM</option>
+                <option>12:00 PM - 1:30 PM</option>
+                <option>3:00 PM - 4:30 PM</option>
+                <option>6:00 PM - 7:30 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Sankalp inputs -->
+          <div style="border-top:1.5px solid var(--border); padding-top:24px; margin-bottom:32px;">
+            <h3 style="font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:var(--dark); margin-bottom:16px;">Sankalp Recitation Parameters</h3>
+            
+            <div class="form-row" style="grid-template-columns:1.5fr 1fr; margin-top:0;">
+              <div>
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Yajamana Full Name (Head of Family)</label>
+                <input type="text" class="form-input" id="puja-fullname" placeholder="Enter Full Name" required />
+              </div>
+              <div>
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Family Gotram</label>
+                <input type="text" class="form-input" id="puja-gotra" placeholder="E.g. Bharadwaja" required />
+              </div>
+            </div>
+
+            <div class="form-row" style="grid-template-columns:1fr 1fr 1fr; margin-top:16px;">
+              <div>
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">City of Residence</label>
+                <input type="text" class="form-input" id="puja-city" placeholder="E.g. Delhi" required />
+              </div>
+              <div>
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Birth Star / Nakshatra</label>
+                <input type="text" class="form-input" id="puja-nakshatra" placeholder="Optional" />
+              </div>
+              <div>
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Purpose / Sankalp</label>
+                <input type="text" class="form-input" id="puja-purpose" placeholder="E.g. Family peace" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Attendance selection tabs -->
+          <div class="switch-container" style="margin-top:0; margin-bottom:32px;">
+            <div>
+              <strong style="color:var(--dark); font-size:14px; display:block;">Live Remote Video Stream Link</strong>
+              <span style="font-size:12px; color:var(--muted);">We'll send you an encrypted YouTube private stream link to watch live</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked id="puja-remote-toggle" onchange="pujaState.mode = this.checked ? 'remote' : 'person'" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <!-- Contacts details -->
+          <div style="border-top:1px solid var(--border); padding-top:24px; margin-bottom:32px;">
+            <h3 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--dark); margin-bottom:12px;">Billing & Updates</h3>
+            <div class="form-row" style="grid-template-columns:1fr 1fr; margin-top:0;">
+              <div>
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Mobile Number</label>
+                <input type="tel" class="form-input" placeholder="9876543210" required />
+              </div>
+              <div>
+                <label style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">Email Address</label>
+                <input type="email" class="form-input" placeholder="yajamana@domain.com" required />
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <button type="button" class="btn btn-ghost" onclick="document.getElementById('puja-catalog-view').style.display='block'; document.getElementById('puja-booking-view').style.display='none';">&larr; Back to Catalogue</button>
+            <button type="submit" class="btn btn-primary" id="puja-submit-btn">Proceed to Offering Payment &rarr;</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <a href="index.html" class="nav-logo">
+            <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.06)"/>
+              <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+              <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+              <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+              <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+              <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+            </svg>
+            <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:white;">Darshana</span>
+          </a>
+        </div>
+        <p class="footer-tagline">Built for Bharat's greatest journey.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Platform</p>
+        <ul class="footer-links">
+          <li><a href="explore.html">Explore Shrines</a></li>
+          <li><a href="booking-darshan.html">Book Darshan</a></li>
+          <li><a href="booking-aarti.html">Puja & Aarti</a></li>
+          <li><a href="donate.html">Donate</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="gold-divider"></div>
+    <div class="footer-bottom" style="margin-top:24px;">
+      <p class="footer-copy">© 2026 Darshana Technologies Pvt. Ltd. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Set today as default date on load
+  document.addEventListener('DOMContentLoaded', () => {
+    const dInput = document.getElementById('puja-date');
+    if (dInput) {
+      const today = new Date().toISOString().split('T')[0];
+      dInput.value = today;
+    }
+  });
+</script>
+<script src="app.js"></script>
+<script src="app-extra.js"></script>
+</body>
+</html>

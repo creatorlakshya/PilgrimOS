@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support the Divine — Darshana</title>
+  <meta name="description" content="Make secure donations to Darshana Temple. Support prasad distributions, shrine restoration, and receive instant 80G tax receipts." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles-extra.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>🛕</text></svg>" />
+
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    /* ============================================================
+       DARSHANA DONATION PAGE — Standalone Styles
+    ============================================================ */
+
+    /* ---- Confetti Canvas ---- */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ---- Hero ---- */
+    .donate-hero {
+      background: linear-gradient(135deg, #C8511B 0%, #7A1F00 100%);
+      padding: 48px 0 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .donate-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23FFFFFF' stroke-width='0.4' opacity='0.07'%3E%3Ccircle cx='100' cy='100' r='90'/%3E%3Ccircle cx='100' cy='100' r='70'/%3E%3Ccircle cx='100' cy='100' r='50'/%3E%3Ccircle cx='100' cy='100' r='30'/%3E%3Ccircle cx='100' cy='100' r='10'/%3E%3Cline x1='100' y1='10' x2='100' y2='190'/%3E%3Cline x1='10' y1='100' x2='190' y2='100'/%3E%3Cline x1='29' y1='29' x2='171' y2='171'/%3E%3Cline x1='171' y1='29' x2='29' y2='171'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 350px;
+      pointer-events: none;
+    }
+    .donate-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 40px;
+      padding: 5px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .donate-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .donate-hero p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.72);
+      max-width: 540px;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    /* ---- Ticker ---- */
+    .blessings-ticker {
+      background: rgba(200,81,27,0.07);
+      border-top: 1px solid rgba(200,81,27,0.18);
+      border-bottom: 1px solid rgba(200,81,27,0.18);
+      padding: 9px 0;
+      overflow: hidden;
+    }
+    .ticker-track {
+      display: flex;
+      gap: 48px;
+      animation: ticker-scroll 28s linear infinite;
+      width: max-content;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #7A4500;
+      white-space: nowrap;
+    }
+    .ticker-sep { color: rgba(200,81,27,0.3); font-size: 18px; }
+    @keyframes ticker-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ---- Page Layout ---- */
+    .donate-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
+      padding-top: 40px;
+    }
+
+    /* ---- Section Cards ---- */
+    .donate-panel {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 24px;
+    }
+
+    /* ---- Amount Buttons ---- */
+    .amount-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .amount-btn {
+      padding: 11px 6px;
+      border-radius: 30px;
+      border: 1.5px solid var(--border);
+      background: var(--parchment);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark-mid);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .amount-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+    .amount-btn.active {
+      background: var(--saffron);
+      border-color: var(--saffron);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(200,81,27,0.3);
+    }
+
+    /* ---- Cause Cards ---- */
+    .cause-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .cause-card {
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: all 0.22s;
+      background: var(--parchment);
+      position: relative;
+    }
+    .cause-card:hover { border-color: var(--saffron); transform: translateY(-2px); box-shadow: var(--card-shadow); }
+    .cause-card.active {
+      border-color: var(--saffron);
+      background: rgba(200,81,27,0.04);
+      box-shadow: 0 0 0 3px rgba(200,81,27,0.1);
+    }
+    .cause-card.active .cause-check { display: flex; }
+    .cause-check {
+      display: none;
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 20px; height: 20px;
+      background: var(--saffron);
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+    }
+    .cause-check::after {
+      content: '';
+      width: 10px; height: 6px;
+      border-left: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(-45deg) translate(1px, -1px);
+    }
+    .cause-emoji { font-size: 22px; margin-bottom: 8px; }
+    .cause-name { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+    .cause-desc { font-size: 11px; color: var(--muted); }
+
+    /* ---- Progress Bars ---- */
+    .cause-progress-list { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+    .cprog-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+    .cprog-label span:first-child { font-weight: 600; color: var(--dark); }
+    .cprog-label span:last-child { color: var(--muted); }
+    .cprog-track {
+      width: 100%;
+      height: 6px;
+      background: var(--parchment-dark);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .cprog-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease;
+    }
+
+    /* ---- QR Payment Card ---- */
+    .qr-payment-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .qr-payment-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
+    }
+    .qr-scan-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .qr-amount-display {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--saffron);
+      margin-bottom: 16px;
+    }
+    .qr-box {
+      width: 168px;
+      height: 168px;
+      margin: 0 auto 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 10px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .upi-id-row {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .upi-id-row strong { color: var(--dark); }
+    .pay-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .pay-status.waiting { background: rgba(212,160,23,0.1); color: #7A5000; }
+    .pay-status.success { background: rgba(45,122,79,0.1); color: #1A5C32; }
+    .blink-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+      animation: blink 1.4s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.65)} }
+
+    .sim-btn {
+      width: 100%;
+      height: 42px;
+      background: transparent;
+      border: 1.5px solid var(--saffron);
+      border-radius: 30px;
+      color: var(--saffron);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sim-btn:hover { background: var(--saffron); color: #fff; }
+
+    /* ---- Stats Card ---- */
+    .stats-live-card {
+      background: var(--dark);
+      border-radius: 20px;
+      padding: 24px;
+      color: #fff;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats-live-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23D4A017' stroke-width='0.5' opacity='0.08'%3E%3Ccircle cx='100' cy='100' r='90'/%3E%3Ccircle cx='100' cy='100' r='70'/%3E%3Ccircle cx='100' cy='100' r='50'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 220px;
+      pointer-events: none;
+    }
+    .stats-live-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .live-indicator {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 0 3px rgba(45,122,79,0.25);
+      animation: livepulse 2s infinite;
+    }
+    @keyframes livepulse {
+      0%,100%{box-shadow:0 0 0 3px rgba(45,122,79,0.2)}
+      50%{box-shadow:0 0 0 7px rgba(45,122,79,0.08)}
+    }
+    .live-text { font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 1px; }
+    .stats-big-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 4px;
+      position: relative;
+    }
+    .stats-big-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 18px; position: relative; }
+    .stats-mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      position: relative;
+    }
+    .stat-mini-box {
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .stat-mini-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .stat-mini-lbl { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 3px; }
+
+    /* ---- Donor Wall ---- */
+    .donor-wall-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      position: sticky;
+      top: 88px;
+    }
+    .wall-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .wall-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .wall-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+    .donor-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      max-height: 400px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .donor-feed::-webkit-scrollbar { width: 4px; }
+    .donor-feed::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .donor-entry {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: all 0.4s ease;
+    }
+    .donor-entry.new-entry {
+      background: #FFFCE8;
+      border-color: var(--gold);
+      animation: entrySlide 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+    }
+    @keyframes entrySlide {
+      from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .d-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      letter-spacing: 0.5px;
+    }
+    .d-name { font-size: 13px; font-weight: 600; color: var(--dark); }
+    .d-cause { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .d-right { margin-left: auto; text-align: right; flex-shrink: 0; }
+    .d-amt {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--saffron);
+    }
+    .d-time { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+    /* ---- Success Screen ---- */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 32px 16px;
+    }
+    .success-screen.show { display: block; }
+    .success-icon {
+      width: 72px; height: 72px;
+      background: rgba(45,122,79,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      font-size: 28px;
+      animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+    }
+    @keyframes popIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+
+    /* ---- Toast ---- */
+    .toast-container {
+      position: fixed;
+      top: 88px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      box-shadow: 0 8px 24px rgba(26,15,0,0.1);
+      pointer-events: auto;
+      animation: toastIn 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
+      max-width: 300px;
+    }
+    @keyframes toastIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+    .toast-item.toast-success { border-left: 4px solid var(--success); }
+    .toast-item.toast-warn { border-left: 4px solid var(--gold); }
+    .toast-item.toast-info { border-left: 4px solid var(--saffron); }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 900px) {
+      .donate-layout { grid-template-columns: 1fr; }
+      .amount-grid { grid-template-columns: repeat(3, 1fr); }
+      .donor-wall-card { position: static; }
+    }
+    @media (max-width: 640px) {
+      .donate-hero h1 { font-size: 28px; }
+      .amount-grid { grid-template-columns: repeat(3, 1fr); }
+      .cause-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+<div class="toast-container" id="toast-container"></div>
+
+<!-- Hero Gradient Bar -->
+<div class="hero-gradient-bar"></div>
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#FDF6EC"/>
+        <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+        <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+        <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+        <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+        <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+      </svg>
+      <span class="nav-logo-text">Pilgrim<span>OS</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="explore.html">Explore Shrines</a></li>
+      <li><a href="shrine.html">Kashi Vishwanath</a></li>
+      <li><a href="subscription.html" style="color: #D4A017;">Premium ✦</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="shrine.html" class="btn btn-ghost btn-sm">Temple Profile</a>
+      <a href="booking-darshan.html" class="btn btn-primary btn-sm">Book Darshan →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     DONATE HERO
+============================================================ -->
+<section class="donate-hero">
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="breadcrumbs" style="margin-bottom:18px;">
+      <a href="index.html">Home</a>
+      <span>&gt;</span>
+      <a href="explore.html">Explore</a>
+      <span>&gt;</span>
+      <a href="shrine.html">Kashi Vishwanath</a>
+      <span>&gt;</span>
+      <span style="color:#fff;font-weight:600;">Support Temple</span>
+    </div>
+    <div class="donate-hero-badge">
+      <span class="blink-dot" style="background:#fff;"></span>
+      Darshana — Sacred Giving Platform
+    </div>
+    <h1>Support the Divine.<br/>Every rupee matters.</h1>
+    <p style="margin-top:10px;">Your donation directly funds temple maintenance, free prasad for pilgrims, eternal lamp seva, gau welfare, and lighting the sacred flame at Kashi Vishwanath Mandir.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLESSINGS TICKER
+============================================================ -->
+<div class="blessings-ticker">
+  <div class="ticker-track" id="ticker-track">
+    <span class="ticker-item">🙏 Ramesh S. donated ₹1,100 for Anna Daan</span>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item">🪔 Priya V. donated ₹5,100 for Temple Restoration</span>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item">🌸 Anonymous donated ₹501 for Deepam Seva</span>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item">🐄 Sharma Family donated ₹2,100 for Gau Seva</span>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item">🙏 Aditi R. donated ₹11,000 for Temple Restoration</span>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item">🪔 Karan M. donated ₹501 for Deepam Seva</span>
+    <span class="ticker-sep">·</span>
+    <!-- Duplicate for seamless loop -->
+    <span class="ticker-item">🙏 Ramesh S. donated ₹1,100 for Anna Daan</span>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item">🪔 Priya V. donated ₹5,100 for Temple Restoration</span>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item">🌸 Anonymous donated ₹501 for Deepam Seva</span>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item">🐄 Sharma Family donated ₹2,100 for Gau Seva</span>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item">🙏 Aditi R. donated ₹11,000 for Temple Restoration</span>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item">🪔 Karan M. donated ₹501 for Deepam Seva</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     MAIN CONTENT
+============================================================ -->
+<section style="padding: 0 0 80px;">
+  <div class="container">
+    <div class="donate-layout">
+
+      <!-- ===== LEFT COLUMN ===== -->
+      <div>
+
+        <!-- Amount Selection -->
+        <div class="donate-panel">
+          <div class="section-label">Make an offering</div>
+          <h2 class="section-title" style="font-size:24px;margin-bottom:6px;">Select Donation Amount</h2>
+          <p style="font-size:14px;color:var(--muted);margin-bottom:22px;">Choose a preset or enter your own sacred offering</p>
+
+          <div class="amount-grid" id="amount-grid">
+            <button class="amount-btn" onclick="selectAmount(11, this)">₹11</button>
+            <button class="amount-btn" onclick="selectAmount(51, this)">₹51</button>
+            <button class="amount-btn" onclick="selectAmount(101, this)">₹101</button>
+            <button class="amount-btn active" onclick="selectAmount(501, this)">₹501</button>
+            <button class="amount-btn" onclick="selectAmount(1100, this)">₹1,100</button>
+            <button class="amount-btn" onclick="selectAmount(5100, this)">₹5,100</button>
+          </div>
+
+          <div style="position:relative;margin-bottom:0;">
+            <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:600;color:var(--muted);">₹</span>
+            <input
+              type="number"
+              id="custom-amount"
+              class="form-input"
+              style="padding-left:32px;background:var(--parchment);"
+              placeholder="Or enter custom amount"
+              min="1"
+              oninput="onCustomAmount(this.value)"
+            />
+          </div>
+
+          <div id="tax-note" style="display:none;font-size:12px;font-weight:600;color:var(--success);margin-top:8px;">
+            ✓ Eligible for 80G tax benefit receipt for this donation amount.
+          </div>
+        </div>
+
+        <!-- Cause Selection -->
+        <div class="donate-panel">
+          <div class="section-label">Direct your giving</div>
+          <h2 class="section-title" style="font-size:24px;margin-bottom:6px;">Choose a Sacred Cause</h2>
+          <p style="font-size:14px;color:var(--muted);margin-bottom:20px;">Your offering goes exactly where you choose — transparently tracked</p>
+
+          <div class="cause-grid">
+            <div class="cause-card active" onclick="selectCause(this, 'Anna Daan')" id="cause-anna">
+              <div class="cause-check"></div>
+              <div class="cause-emoji">🍛</div>
+              <div class="cause-name">Anna Daan</div>
+              <div class="cause-desc">Free meals for pilgrims</div>
+            </div>
+            <div class="cause-card" onclick="selectCause(this, 'Temple Restoration')" id="cause-restoration">
+              <div class="cause-check"></div>
+              <div class="cause-emoji">🏛️</div>
+              <div class="cause-name">Temple Restoration</div>
+              <div class="cause-desc">Renovation & sacred upkeep</div>
+            </div>
+            <div class="cause-card" onclick="selectCause(this, 'Deepam Seva')" id="cause-deepam">
+              <div class="cause-check"></div>
+              <div class="cause-emoji">🪔</div>
+              <div class="cause-name">Deepam / Lamp Seva</div>
+              <div class="cause-desc">Keep the eternal flame alive</div>
+            </div>
+            <div class="cause-card" onclick="selectCause(this, 'Gau Seva')" id="cause-gau">
+              <div class="cause-check"></div>
+              <div class="cause-emoji">🐄</div>
+              <div class="cause-name">Gau Seva</div>
+              <div class="cause-desc">Sacred cow welfare fund</div>
+            </div>
+          </div>
+
+          <div class="section-label" style="margin-top:4px;">Live cause progress</div>
+          <div class="cause-progress-list" id="cause-progress-list" style="margin-top:14px;"></div>
+        </div>
+
+        <!-- Donor Information -->
+        <div class="donate-panel">
+          <div class="section-label">Your details</div>
+          <h2 class="section-title" style="font-size:24px;margin-bottom:20px;">Donor Information</h2>
+
+          <div class="form-row" style="grid-template-columns:1.5fr 1fr;margin-top:0;">
+            <div>
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--dark);">Full Name</label>
+              <input type="text" class="form-input" id="donor-name" placeholder="Ramesh Sharma" style="background:var(--parchment);" />
+            </div>
+            <div>
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--dark);">PAN (for 80G receipt)</label>
+              <input type="text" class="form-input" id="donor-pan" placeholder="ABCDE1234F (optional)" style="background:var(--parchment);" />
+            </div>
+          </div>
+
+          <div class="form-row" style="grid-template-columns:1fr 1fr;margin-top:14px;">
+            <div>
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--dark);">Phone Number</label>
+              <input type="tel" class="form-input" id="donor-phone" placeholder="9876543210" style="background:var(--parchment);" />
+            </div>
+            <div>
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--dark);">Email Address</label>
+              <input type="email" class="form-input" id="donor-email" placeholder="devotee@domain.com" style="background:var(--parchment);" />
+            </div>
+          </div>
+
+          <div class="switch-container" style="margin-top:20px;">
+            <div>
+              <strong style="color:var(--dark);font-size:14px;display:block;">Show my name in the live donor wall</strong>
+              <span style="font-size:12px;color:var(--muted);">Join our community of devotees giving in real time</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="show-in-wall" checked />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <button class="btn btn-primary" id="proceed-btn" onclick="onProceed()" style="width:100%;height:52px;font-size:16px;margin-top:20px;border-radius:14px;">
+            Proceed to Sacred Offering →
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ===== RIGHT COLUMN ===== -->
+      <div>
+
+        <!-- Live Stats Card -->
+        <div class="stats-live-card">
+          <div class="stats-live-row">
+            <div class="live-indicator"></div>
+            <span class="live-text">Live Contributions</span>
+          </div>
+          <div class="stats-big-num" id="stat-total">₹12,40,783</div>
+          <div class="stats-big-sub">Total donated this month</div>
+          <div class="stats-mini-grid">
+            <div class="stat-mini-box">
+              <div class="stat-mini-num" id="stat-devotees">4,218</div>
+              <div class="stat-mini-lbl">Devotees this month</div>
+            </div>
+            <div class="stat-mini-box">
+              <div class="stat-mini-num" id="stat-today">₹84,320</div>
+              <div class="stat-mini-lbl">Donated today</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- QR Payment Card -->
+        <div class="qr-payment-card" id="qr-payment-section">
+          <div class="qr-scan-label">Scan to Donate</div>
+          <div class="qr-amount-display" id="qr-amt-display">₹501</div>
+
+          <div class="qr-box" id="qr-box">
+            <!-- QR generated here by JS -->
+          </div>
+
+          <div class="upi-id-row">
+            UPI ID: <strong>darshana@upi</strong>
+          </div>
+
+          <div class="pay-status waiting" id="pay-status">
+            <span class="blink-dot"></span>
+            Waiting for payment...
+          </div>
+
+          <button class="sim-btn" id="sim-pay-btn" onclick="simulatePayment()">
+            ✦ Simulate Payment Success
+          </button>
+
+          <!-- Success overlay -->
+          <div class="success-screen" id="pay-success-screen">
+            <div class="success-icon">🙏</div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--success);margin-bottom:6px;">Payment Received!</h3>
+            <p style="font-size:13px;color:var(--muted);">Your blessed offering has been accepted with gratitude.</p>
+            <button onclick="resetPayment()" class="btn btn-ghost btn-sm" style="margin-top:16px;">Make Another Offering</button>
+          </div>
+        </div>
+
+        <!-- Donor Wall -->
+        <div class="donor-wall-card">
+          <div class="wall-head">
+            <div class="wall-title">Devotee Donor Wall</div>
+            <div class="live-indicator"></div>
+          </div>
+          <div class="wall-sub">Live donations from across Bharat</div>
+          <div class="donor-feed" id="donor-feed"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <a href="index.html" class="nav-logo">
+            <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.06)"/>
+              <path d="M18 4L22 10H14L18 4Z" fill="#C8511B"/>
+              <rect x="14" y="10" width="8" height="2" rx="1" fill="#D4A017"/>
+              <rect x="16" y="16" width="4" height="8" rx="1" fill="#C8511B"/>
+              <rect x="10" y="24" width="16" height="2" rx="1" fill="#D4A017"/>
+              <rect x="8" y="26" width="20" height="2" rx="1" fill="#C8511B"/>
+            </svg>
+            <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:white;">Pilgrim<span style="color:#C8511B;">OS</span></span>
+          </a>
+        </div>
+        <p class="footer-tagline">Built for Bharat's greatest journey. Empowering pilgrims and temple trusts across India with world-class digital infrastructure.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Platform</p>
+        <ul class="footer-links">
+          <li><a href="explore.html">Explore Shrines</a></li>
+          <li><a href="booking-darshan.html">Book Darshan</a></li>
+          <li><a href="booking-aarti.html">Puja & Aarti</a></li>
+          <li><a href="donate-darshana.html">Donate</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">For Temples</p>
+        <ul class="footer-links">
+          <li><a href="#" onclick="return false;">Temple Dashboard</a></li>
+          <li><a href="#" onclick="return false;">Donation Ledger</a></li>
+          <li><a href="#" onclick="return false;">Analytics</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-links">
+          <li><a href="#" onclick="return false;">About Us</a></li>
+          <li><a href="#" onclick="return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="return false;">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="gold-divider"></div>
+    <div class="footer-bottom" style="margin-top:24px;">
+      <p class="footer-copy">© 2026 PilgrimOS Technologies Pvt. Ltd. All rights reserved.</p>
+      <p class="footer-made">Made with 🙏 in Bangalore</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+============================================================ -->
+<script src="app.js"></script>
+<script>
+'use strict';
+
+/* ============================================================
+   DARSHANA DONATION PAGE STATE
+============================================================ */
+
+let donState = {
+  amount: 501,
+  cause: 'Anna Daan',
+  totalDonations: 12407832,
+  devoteeCount: 4218,
+  todayTotal: 84320,
+  paymentDone: false,
+};
+
+const CAUSES_DATA = [
+  { id: 'anna',        name: 'Anna Daan',          raised: 820000,  goal: 1000000, color: '#C8511B' },
+  { id: 'restoration', name: 'Temple Restoration', raised: 1450000, goal: 2500000, color: '#D4A017' },
+  { id: 'deepam',      name: 'Deepam Seva',        raised: 240000,  goal: 300000,  color: '#8B2500' },
+  { id: 'gau',         name: 'Gau Seva',           raised: 380000,  goal: 700000,  color: '#2D7A4F' },
+];
+
+const SEED_DONORS = [
+  { name: 'Ramesh Sharma',   amt: 1100,  cause: 'Anna Daan',          ago: '2 min ago' },
+  { name: 'Anonymous',       amt: 501,   cause: 'Deepam Seva',        ago: '5 min ago' },
+  { name: 'Priya Venkat',    amt: 5100,  cause: 'Temple Restoration', ago: '9 min ago' },
+  { name: 'Suresh & Family', amt: 11000, cause: 'Temple Restoration', ago: '14 min ago' },
+  { name: 'Aditi Rao',       amt: 101,   cause: 'Gau Seva',           ago: '19 min ago' },
+  { name: 'Karan Mehta',     amt: 2100,  cause: 'Anna Daan',          ago: '24 min ago' },
+  { name: 'Devi Prasad',     amt: 501,   cause: 'Deepam Seva',        ago: '29 min ago' },
+  { name: 'Amitabh B.',      amt: 51000, cause: 'Temple Restoration', ago: '33 min ago' },
+];
+
+const RANDOM_NAMES = [
+  'Sita Devi', 'Anand Kumar', 'Meera Nair', 'Vikram S.', 'Gita Rao',
+  'Anonymous', 'Rajesh P.', 'Sunita B.', 'Mohan L.', 'Kavitha G.'
+];
+
+const AVATAR_COLORS = [
+  ['#FEE9DC', '#C8511B'], ['#FFF8E1', '#8B6400'],
+  ['#E8F5E9', '#2D7A4F'], ['#EDE7F6', '#5E35B1'],
+  ['#FBE9E7', '#B71C1C'], ['#E3F2FD', '#0D47A1'],
+];
+
+/* ============================================================
+   UTILITY
+============================================================ */
+function formatINR(n) {
+  return '₹' + Number(n).toLocaleString('en-IN');
+}
+
+function getInitials(name) {
+  return name.split(' ').map(w => w[0] || '').join('').substring(0, 2).toUpperCase();
+}
+
+function getAvatarColors(name) {
+  const idx = name.charCodeAt(0) % AVATAR_COLORS.length;
+  return AVATAR_COLORS[idx];
+}
+
+/* ============================================================
+   AMOUNT SELECTION
+============================================================ */
+function selectAmount(amt, btn) {
+  donState.amount = amt;
+  donState.paymentDone = false;
+  document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('custom-amount').value = '';
+  updateTaxNote(amt);
+  updateQR();
+  resetPaymentUI();
+}
+
+function onCustomAmount(val) {
+  const amt = parseInt(val);
+  if (amt > 0) {
+    donState.amount = amt;
+    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+    updateTaxNote(amt);
+    updateQR();
+    resetPaymentUI();
+  }
+}
+
+function updateTaxNote(amt) {
+  document.getElementById('tax-note').style.display = amt >= 1100 ? 'block' : 'none';
+}
+
+/* ============================================================
+   CAUSE SELECTION
+============================================================ */
+function selectCause(el, causeName) {
+  donState.cause = causeName;
+  document.querySelectorAll('.cause-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  updateQR();
+}
+
+/* ============================================================
+   CAUSE PROGRESS BARS
+============================================================ */
+function renderCauseProgress() {
+  const container = document.getElementById('cause-progress-list');
+  container.innerHTML = CAUSES_DATA.map(c => {
+    const pct = Math.min(100, Math.round((c.raised / c.goal) * 100));
+    const raisedFmt = formatINR(c.raised);
+    const goalFmt = formatINR(c.goal);
+    return `
+      <div>
+        <div class="cprog-label">
+          <span>${c.name}</span>
+          <span>${raisedFmt} / ${goalFmt}</span>
+        </div>
+        <div class="cprog-track">
+          <div class="cprog-fill" id="cprog-${c.id}" style="width:${pct}%; background:${c.color};"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function refreshCauseProgress() {
+  CAUSES_DATA.forEach(c => {
+    const pct = Math.min(100, Math.round((c.raised / c.goal) * 100));
+    const el = document.getElementById(`cprog-${c.id}`);
+    if (el) el.style.width = pct + '%';
+  });
+}
+
+/* ============================================================
+   QR CODE GENERATION
+============================================================ */
+let qrInstance = null;
+
+function updateQR() {
+  const box = document.getElementById('qr-box');
+  document.getElementById('qr-amt-display').textContent = formatINR(donState.amount);
+
+  box.innerHTML = '';
+  const upiPayload = `upi://pay?pa=darshana@upi&pn=Darshana+Temple&am=${donState.amount}&cu=INR&tn=${encodeURIComponent(donState.cause)}`;
+
+  try {
+    new QRCode(box, {
+      text: upiPayload,
+      width: 144,
+      height: 144,
+      colorDark: '#1A0F00',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } catch (e) {
+    box.innerHTML = '<p style="font-size:12px;color:var(--muted);padding:16px;">QR generation failed. Please try again.</p>';
+  }
+}
+
+/* ============================================================
+   PAYMENT FLOW
+============================================================ */
+function onProceed() {
+  const name = document.getElementById('donor-name').value.trim();
+  if (!name) {
+    showToast('Please enter your name to continue.', 'warn');
+    document.getElementById('donor-name').focus();
+    return;
+  }
+  showToast('QR ready — scan with any UPI app or simulate below.', 'info');
+  document.getElementById('qr-payment-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function simulatePayment() {
+  if (donState.paymentDone) return;
+  donState.paymentDone = true;
+
+  const name = document.getElementById('donor-name').value.trim() || 'Anonymous';
+  const showWall = document.getElementById('show-in-wall').checked;
+
+  // Update UI
+  const statusEl = document.getElementById('pay-status');
+  statusEl.className = 'pay-status success';
+  statusEl.innerHTML = '✓ Payment successful!';
+
+  document.getElementById('sim-pay-btn').style.display = 'none';
+  document.getElementById('pay-success-screen').classList.add('show');
+
+  // Update stats
+  donState.totalDonations += donState.amount;
+  donState.devoteeCount += 1;
+  donState.todayTotal += donState.amount;
+  renderStats();
+
+  // Update cause progress
+  const cause = CAUSES_DATA.find(c => c.name === donState.cause);
+  if (cause) {
+    cause.raised += donState.amount;
+    refreshCauseProgress();
+  }
+
+  // Add to donor wall
+  if (showWall) {
+    prependDonor({ name, amt: donState.amount, cause: donState.cause, ago: 'Just now' }, true);
+  }
+
+  // Toast + confetti
+  showToast(`${formatINR(donState.amount)} received! 🙏 Jai Shri Kashi!`, 'success');
+  triggerConfetti();
+}
+
+function resetPayment() {
+  donState.paymentDone = false;
+  resetPaymentUI();
+}
+
+function resetPaymentUI() {
+  const statusEl = document.getElementById('pay-status');
+  statusEl.className = 'pay-status waiting';
+  statusEl.innerHTML = '<span class="blink-dot"></span> Waiting for payment...';
+  document.getElementById('sim-pay-btn').style.display = 'block';
+  document.getElementById('pay-success-screen').classList.remove('show');
+}
+
+/* ============================================================
+   STATS RENDER
+============================================================ */
+function renderStats() {
+  document.getElementById('stat-total').textContent = '₹' + donState.totalDonations.toLocaleString('en-IN');
+  document.getElementById('stat-devotees').textContent = donState.devoteeCount.toLocaleString('en-IN');
+  document.getElementById('stat-today').textContent = '₹' + donState.todayTotal.toLocaleString('en-IN');
+}
+
+/* ============================================================
+   DONOR WALL
+============================================================ */
+function prependDonor(donor, isNew) {
+  const feed = document.getElementById('donor-feed');
+  const item = buildDonorEl(donor, isNew);
+  feed.insertBefore(item, feed.firstChild);
+  if (feed.children.length > 22) feed.removeChild(feed.lastChild);
+  if (isNew) feed.scrollTop = 0;
+}
+
+function buildDonorEl(donor, isNew) {
+  const div = document.createElement('div');
+  div.className = 'donor-entry' + (isNew ? ' new-entry' : '');
+  const [bgColor, txtColor] = getAvatarColors(donor.name);
+  div.innerHTML = `
+    <div class="d-avatar" style="background:${bgColor};color:${txtColor};">${getInitials(donor.name)}</div>
+    <div>
+      <div class="d-name">${donor.name}</div>
+      <div class="d-cause">${donor.cause}</div>
+    </div>
+    <div class="d-right">
+      <div class="d-amt">${formatINR(donor.amt)}</div>
+      <div class="d-time">${donor.ago}</div>
+    </div>
+  `;
+  return div;
+}
+
+function seedDonorWall() {
+  const feed = document.getElementById('donor-feed');
+  feed.innerHTML = '';
+  SEED_DONORS.forEach(d => prependDonor(d, false));
+}
+
+/* ============================================================
+   AUTO LIVE DONATIONS (random simulation)
+============================================================ */
+const RANDOM_AMOUNTS = [51, 101, 501, 1100, 2100, 5100];
+
+function addRandomDonation() {
+  const name = RANDOM_NAMES[Math.floor(Math.random() * RANDOM_NAMES.length)];
+  const amt = RANDOM_AMOUNTS[Math.floor(Math.random() * RANDOM_AMOUNTS.length)];
+  const cause = CAUSES_DATA[Math.floor(Math.random() * CAUSES_DATA.length)].name;
+
+  prependDonor({ name, amt, cause, ago: 'Just now' }, true);
+
+  donState.totalDonations += amt;
+  donState.devoteeCount += 1;
+  donState.todayTotal += amt;
+  renderStats();
+
+  const causeObj = CAUSES_DATA.find(c => c.name === cause);
+  if (causeObj) {
+    causeObj.raised += amt;
+    refreshCauseProgress();
+  }
+}
+
+/* ============================================================
+   TOAST NOTIFICATIONS
+============================================================ */
+function showToast(msg, type) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast-item toast-${type}`;
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3800);
+}
+
+/* ============================================================
+   CONFETTI
+============================================================ */
+function triggerConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const colors = ['#C8511B', '#D4A017', '#F0C040', '#2D7A4F', '#fff', '#E8693A'];
+  let particles = Array.from({ length: 140 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height - canvas.height,
+    r: Math.random() * 7 + 3,
+    d: Math.random() * 120,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    tiltAngle: Math.random() * Math.PI * 2,
+    tiltInc: Math.random() * 0.08 + 0.02,
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.tiltAngle += p.tiltInc;
+      p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+      p.x += Math.sin(p.tiltAngle);
+      ctx.beginPath();
+      ctx.lineWidth = p.r;
+      ctx.strokeStyle = p.color;
+      ctx.moveTo(p.x + Math.sin(p.tiltAngle) * 15, p.y);
+      ctx.lineTo(p.x + Math.sin(p.tiltAngle) * 15 + Math.cos(p.tiltAngle) * 8, p.y + 8);
+      ctx.stroke();
+    });
+    particles = particles.filter(p => p.y < canvas.height + 20);
+    if (particles.length > 0) requestAnimationFrame(draw);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  draw();
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderCauseProgress();
+  seedDonorWall();
+  renderStats();
+  updateQR();
+
+  // Simulate random live donations every 5.5 seconds
+  setInterval(addRandomDonation, 5500);
+});
+
+// Expose to global (for inline onclick attributes)
+window.selectAmount = selectAmount;
+window.onCustomAmount = onCustomAmount;
+window.selectCause = selectCause;
+window.onProceed = onProceed;
+window.simulatePayment = simulatePayment;
+window.resetPayment = resetPayment;
+</script>
+
+</body>
+</html>
